@@ -16,7 +16,7 @@ function SaveState(abmelden) {
 }
 
 //MainStore
-export const PiniaStore = defineStore('AnmeldungFreifaecher', {
+export const wwStore = defineStore('AnmeldungFreifaecher', {
   //State
   state: () => ({}),
   //Getter
