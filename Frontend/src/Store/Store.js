@@ -16,9 +16,11 @@ function SaveState(abmelden) {
 }
 
 //MainStore
-export const wwStore = defineStore('AnmeldungFreifaecher', {
+export const wwStore = defineStore('wwStore', {
   //State
-  state: () => ({}),
+  state: () => ({
+    warenkorb: [],
+  }),
   //Getter
   getters: {},
   //Actions

@@ -18,10 +18,9 @@
       >
         <div class="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
           <h2 id="summary-heading" class="sr-only">Zu Bezahlen</h2>
-
           <dl>
             <dt class="text-sm font-medium">zu Bezahlen</dt>
-            <dd class="mt-1 text-3xl font-bold tracking-tight text-white">$232.00</dd>
+            <dd class="mt-1 text-3xl font-bold tracking-tight text-white">{{ getTotalSum }}€</dd>
           </dl>
 
           <ul role="list" class="divide-y divide-white divide-opacity-10 text-sm font-medium">
@@ -31,8 +30,8 @@
               class="flex items-start space-x-4 py-6"
             >
               <img
-                :src="product.imageSrc"
-                :alt="product.imageAlt"
+                :src="product.image"
+                :alt="product.name"
                 class="h-20 w-20 flex-none rounded-md object-cover object-center"
               />
               <div class="flex-auto space-y-1">
@@ -40,9 +39,7 @@
                 <p>{{ product.color }}</p>
                 <p>{{ product.size }}</p>
               </div>
-              <p class="flex-none text-base font-medium text-white">
-                {{ product.price }}
-              </p>
+              <p class="flex-none text-base font-medium text-white">{{ product.price }}€</p>
             </li>
           </ul>
 
@@ -51,7 +48,7 @@
               class="flex items-center justify-between border-t border-white border-opacity-10 pt-6 text-white"
             >
               <dt class="text-base">Total</dt>
-              <dd class="text-base">$642.60</dd>
+              <dd class="text-base">{{ getTotalSum }}€</dd>
             </div>
           </dl>
         </div>
@@ -250,7 +247,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import {
   Listbox,
   ListboxButton,
@@ -259,6 +255,32 @@ import {
   ListboxOptions,
 } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { ref, onMounted, computed } from 'vue';
+
+// const router = useRouter();
+const products = ref([]);
+
+onMounted(() => {
+  try {
+    //Try to get Items from the basket
+    const basket = JSON.parse(localStorage.getItem('cart'));
+    if (basket) {
+      //Basket is not Empty
+      console.log(basket);
+      products.value = basket;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const getTotalSum = computed(() => {
+  let sum = 0;
+  products.value.forEach((product) => {
+    sum += Number(product.price);
+  });
+  return sum.toFixed(2);
+});
 
 const people = [
   { id: 1, name: 'Wild minis' },
@@ -276,27 +298,27 @@ const people = [
 
 const selected = ref(people[3]);
 
-const products = [
-  {
-    id: 1,
-    name: 'Kempa Team T-Shirt Schwarz',
-    href: '#',
-    price: '15.09€',
-    availability: 'Casual',
-    imageSrc: 'Tshirt1.jpeg',
-    imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-    color: 'Schwarz',
-  },
-  {
-    id: 2,
-    name: 'Kempa Core 26 Shirt',
-    href: '#',
-    price: '23.49€',
-    availability: 'Player',
-    imageSrc: 'T-Shirt2.jpeg',
-    color: 'Grün',
-    imageAlt:
-      'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: 'Kempa Team T-Shirt Schwarz',
+//     href: '#',
+//     price: '15.09€',
+//     availability: 'Casual',
+//     imageSrc: 'Tshirt1.jpeg',
+//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
+//     color: 'Schwarz',
+//   },
+//   {
+//     id: 2,
+//     name: 'Kempa Core 26 Shirt',
+//     href: '#',
+//     price: '23.49€',
+//     availability: 'Player',
+//     imageSrc: 'T-Shirt2.jpeg',
+//     color: 'Grün',
+//     imageAlt:
+//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
+//   },
+// ];
 </script>
