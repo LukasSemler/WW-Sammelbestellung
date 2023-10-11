@@ -165,7 +165,7 @@ import {
 } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
-import { wwStore } from '../Store/Store.js';
+import { wwStore } from '../store/Store.js';
 
 const router = useRouter();
 const store = wwStore();

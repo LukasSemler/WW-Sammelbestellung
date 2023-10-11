@@ -166,21 +166,21 @@
                 >
                   <a
                     v-for="product in products"
-                    :key="product.id"
+                    :key="product.p_id"
                     class="group text-sm"
-                    @click="router.push(`/productdetailview/${product.id}`)"
+                    @click="router.push(`/productdetailview/${product.p_id}`)"
                   >
                     <div
                       class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
                     >
                       <img
-                        :src="product.imageSrc"
-                        :alt="product.imageAlt"
+                        :src="product.image"
+                        :alt="product.name"
                         class="h-full w-full object-cover object-center"
                       />
                     </div>
                     <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
-                    <p class="italic text-gray-500">{{ product.availability }}</p>
+                    <p class="italic text-gray-500">{{ product.category }}</p>
                     <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
                   </a>
                 </div>
@@ -191,33 +191,10 @@
       </main>
     </div>
   </div>
-
-  <!-- ==================================== -->
-
-  <!-- <div class="bg-white">
-    <div class="mx-auto max-w-7xl overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-        <a v-for="product in products" :key="product.id" :href="product.href" class="group text-sm">
-          <div
-            class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
-          >
-            <img
-              :src="product.imageSrc"
-              :alt="product.imageAlt"
-              class="h-full w-full object-cover object-center"
-            />
-          </div>
-          <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
-          <p class="italic text-gray-500">{{ product.availability }}</p>
-          <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
-        </a>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import {
   Dialog,
   DialogPanel,
@@ -230,125 +207,121 @@ import {
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon, PlusIcon } from '@heroicons/vue/20/solid';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter();
+const products = ref([]);
+
+onMounted(async () => {
+  const { data } = await axios.get('/products');
+  console.log(data);
+  products.value = data;
+});
 
 const filters = [
   {
     id: 'color',
     name: 'Color',
     options: [
-      { value: 'white', label: 'White' },
-      { value: 'beige', label: 'Beige' },
-      { value: 'blue', label: 'Blue' },
-      { value: 'brown', label: 'Brown' },
-      { value: 'green', label: 'Green' },
-      { value: 'purple', label: 'Purple' },
+      { value: 'weiss', label: 'Weiss' },
+      { value: 'schwarz', label: 'Schwarz' },
+      { value: 'gruen', label: 'Gruen' },
+      { value: 'grau', label: 'Grau' },
     ],
   },
   {
     id: 'category',
     name: 'Category',
     options: [
-      { value: 'new-arrivals', label: 'All New Arrivals' },
-      { value: 'tees', label: 'Tees' },
-      { value: 'crewnecks', label: 'Crewnecks' },
-      { value: 'sweatshirts', label: 'Sweatshirts' },
-      { value: 'pants-shorts', label: 'Pants & Shorts' },
+      { value: 'casual', label: 'Casual' },
+      { value: 'player', label: 'Player' },
+      { value: 'fan', label: 'Fans' },
     ],
   },
   {
     id: 'sizes',
     name: 'Sizes',
     options: [
-      { value: 'xs', label: 'XS' },
+      { value: '152', label: '152' },
+      { value: '164', label: '164' },
       { value: 's', label: 'S' },
       { value: 'm', label: 'M' },
       { value: 'l', label: 'L' },
       { value: 'xl', label: 'XL' },
-      { value: '2xl', label: '2XL' },
     ],
   },
 ];
 
 const mobileFiltersOpen = ref(false);
 
-const products = [
-  {
-    id: 1,
-    name: 'Kempa Team T-Shirt Schwarz',
-    href: '#',
-    price: '15.09',
-    availability: 'Casual',
-    imageSrc: 'Tshirt1.jpeg',
-    imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-  },
-  {
-    id: 2,
-    name: 'Kempa Core 26 Shirt',
-    href: '#',
-    price: '23,49',
-    availability: 'Player',
-    imageSrc: 'T-Shirt2.jpeg',
-    imageAlt:
-      'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-  },
-  {
-    id: 3,
-    name: 'Kempa Core 26 Shirt',
-    href: '#',
-    price: '23,49',
-    availability: 'Player',
-    imageSrc: 'T-Shirt2.jpeg',
-    imageAlt:
-      'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-  },
-  {
-    id: 4,
-    name: 'Kempa Team T-Shirt Schwarz',
-    href: '#',
-    price: '15.09',
-    availability: 'Casual',
-    imageSrc: 'Tshirt1.jpeg',
-    imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-  },
-  {
-    id: 5,
-    name: 'Kempa Core 26 Shirt',
-    href: '#',
-    price: '23,49',
-    availability: 'Player',
-    imageSrc: 'T-Shirt2.jpeg',
-    imageAlt:
-      'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-  },
-  {
-    id: 6,
-    name: 'Kempa Team T-Shirt Schwarz',
-    href: '#',
-    price: '15.09',
-    availability: 'Casual',
-    imageSrc: 'Tshirt1.jpeg',
-    imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-  },
-  {
-    id: 7,
-    name: 'Kempa Core 26 Shirt',
-    href: '#',
-    price: '23,49',
-    availability: 'Player',
-    imageSrc: 'T-Shirt2.jpeg',
-    imageAlt:
-      'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-  },
-  {
-    id: 8,
-    name: 'Kempa Team T-Shirt Schwarz',
-    href: '#',
-    price: '15.09',
-    availability: 'Casual',
-    imageSrc: 'Tshirt1.jpeg',
-    imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: 'Kempa Team T-Shirt Schwarz',
+//     price: '15.09',
+//     availability: 'Casual',
+//     imageSrc: '/ProductImages/Tshirt1.jpeg',
+//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
+//   },
+//   {
+//     id: 2,
+//     name: 'Kempa Core 26 Shirt',
+//     price: '23,49',
+//     availability: 'Player',
+//     imageSrc: '/ProductImages/Tshirt1.jpeg',
+//     imageAlt:
+//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
+//   },
+//   {
+//     id: 3,
+//     name: 'Kempa Core 26 Shirt',
+//     price: '23,49',
+//     availability: 'Player',
+//     imageSrc: 'ProductImages/Tshirt1.jpeg',
+//     imageAlt:
+//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
+//   },
+//   {
+//     id: 4,
+//     name: 'Kempa Team T-Shirt Schwarz',
+//     price: '15.09',
+//     availability: 'Casual',
+//     imageSrc: 'Tshirt1.jpeg',
+//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
+//   },
+//   {
+//     id: 5,
+//     name: 'Kempa Core 26 Shirt',
+//     price: '23,49',
+//     availability: 'Player',
+//     imageSrc: 'T-Shirt2.jpeg',
+//     imageAlt:
+//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
+//   },
+//   {
+//     id: 6,
+//     name: 'Kempa Team T-Shirt Schwarz',
+//     price: '15.09',
+//     availability: 'Casual',
+//     imageSrc: 'Tshirt1.jpeg',
+//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
+//   },
+//   {
+//     id: 7,
+//     name: 'Kempa Core 26 Shirt',
+//     price: '23,49',
+//     availability: 'Player',
+//     imageSrc: 'T-Shirt2.jpeg',
+//     imageAlt:
+//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
+//   },
+//   {
+//     id: 8,
+//     name: 'Kempa Team T-Shirt Schwarz',
+//     price: '15.09',
+//     availability: 'Casual',
+//     imageSrc: 'Tshirt1.jpeg',
+//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
+//   },
+// ];
 </script>

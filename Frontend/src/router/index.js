@@ -43,20 +43,20 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/adminview',
+      path: '/admin',
       name: 'adminview',
       component: AdminView,
+    },
+    {
+      path: '/productdetailview/:id',
+      name: 'productdetail',
+      component: ProductDetailView,
+      params: true,
     },
     {
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView,
-    },
-    {
-      path: '/productdetailview/:id',
-      name: 'checkout',
-      component: ProductDetailView,
-      params: true,
     },
     //{ path: '/:pathmatch(.*)*', name: 'not-found', component: Error404 },
   ],

@@ -1,2 +1,6 @@
 ####GET####
-GET http://localhost:2410/test
+GET http://localhost:2410/products
+
+##########
+GET http://localhost:2410/products/1
+
