@@ -35,9 +35,9 @@
                 class="h-20 w-20 flex-none rounded-md object-cover object-center"
               />
               <div class="flex-auto space-y-1">
-                <h3 class="text-white">{{ product.name }}</h3>
+                <h3 class="text-white">{{ product.anzahl }} x {{ product.name }}</h3>
                 <p>{{ product.color }}</p>
-                <p>{{ product.size }}</p>
+                <p>{{ product.actualSize }}</p>
               </div>
               <p class="flex-none text-base font-medium text-white">{{ product.price }}€</p>
             </li>
@@ -78,6 +78,7 @@
                     name="email-address"
                     autocomplete="email"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                    v-model="state.email"
                   />
                 </div>
 
@@ -86,11 +87,12 @@
                 >
                 <div class="mt-1">
                   <input
-                    type="email"
-                    id="email-address"
-                    name="email-address"
-                    autocomplete="email"
+                    type="tel"
+                    id="telefonnummer"
+                    name="telefonnummer"
+                    autocomplete="tel"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                    v-model="state.telfonnummer"
                   />
                 </div>
 
@@ -102,10 +104,10 @@
                     <div class="mt-1">
                       <input
                         type="text"
-                        name="expiration-date"
-                        id="expiration-date"
-                        autocomplete="cc-exp"
+                        name="vornameEltern"
+                        id="vornameEltern"
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                        v-model="state.vornameEltern"
                       />
                     </div>
                   </div>
@@ -117,10 +119,10 @@
                     <div class="mt-1">
                       <input
                         type="text"
-                        name="cvc"
-                        id="cvc"
-                        autocomplete="csc"
+                        name="nachnameEltern"
+                        id="nachnameEltern"
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                        v-model="state.nachnameEltern"
                       />
                     </div>
                   </div>
@@ -142,10 +144,10 @@
                     <div class="mt-1">
                       <input
                         type="text"
-                        name="expiration-date"
-                        id="expiration-date"
-                        autocomplete="cc-exp"
+                        name="vornameSpieler"
+                        id="vornameSpieler"
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                        v-model="state.vornameSpieler"
                       />
                     </div>
                   </div>
@@ -157,10 +159,10 @@
                     <div class="mt-1">
                       <input
                         type="text"
-                        name="cvc"
-                        id="cvc"
-                        autocomplete="csc"
+                        name="nachnameSpieler"
+                        id="nachnameSpieler"
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
+                        v-model="state.nachnameSpieler"
                       />
                     </div>
                   </div>
@@ -192,7 +194,7 @@
                           >
                             <ListboxOption
                               as="template"
-                              v-for="person in people"
+                              v-for="person in jahrgang"
                               :key="person.id"
                               :value="person"
                               v-slot="{ active, selected }"
@@ -233,7 +235,7 @@
 
             <div class="mt-10 flex justify-end border-t border-gray-200 pt-6">
               <button
-                type="submit"
+                @click="order"
                 class="rounded-md border border-transparent bg-wwGreen px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Zahlungspflichtig bestellen
@@ -255,10 +257,38 @@ import {
   ListboxOptions,
 } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, reactive } from 'vue';
+import axios from 'axios';
 
 // const router = useRouter();
 const products = ref([]);
+
+const jahrgang = [
+  { id: 1, name: 'Wild minis' },
+  { id: 2, name: 'U9' },
+  { id: 3, name: 'U11' },
+  { id: 4, name: 'U12' },
+  { id: 5, name: 'U13' },
+  { id: 6, name: 'U14' },
+  { id: 7, name: 'U15' },
+  { id: 8, name: 'U16' },
+  { id: 9, name: 'U18' },
+  { id: 10, name: 'Future Team' },
+  { id: 11, name: 'Trainer' },
+];
+
+const selected = ref(jahrgang[3]);
+const state = reactive({
+  email: '',
+  telfonnummer: '',
+  vornameEltern: '',
+  nachnameEltern: '',
+  vornameSpieler: '',
+  nachnameSpieler: '',
+  summe: null,
+  prods: [],
+  jahrgang: '',
+});
 
 onMounted(() => {
   try {
@@ -277,48 +307,24 @@ onMounted(() => {
 const getTotalSum = computed(() => {
   let sum = 0;
   products.value.forEach((product) => {
-    sum += Number(product.price);
+    sum += product.anzahl * Number(product.price);
   });
   return sum.toFixed(2);
 });
 
-const people = [
-  { id: 1, name: 'Wild minis' },
-  { id: 2, name: 'U9' },
-  { id: 3, name: 'U11' },
-  { id: 4, name: 'U12' },
-  { id: 5, name: 'U13' },
-  { id: 6, name: 'U14' },
-  { id: 7, name: 'U15' },
-  { id: 8, name: 'U16' },
-  { id: 9, name: 'U18' },
-  { id: 10, name: 'Futur Team' },
-  { id: 11, name: 'Trainer' },
-];
+async function order(e) {
+  e.preventDefault();
 
-const selected = ref(people[3]);
+  try {
+    state.summe = getTotalSum.value;
+    state.prods = products.value;
+    state.jahrgang = selected.value.name;
 
-// const products = [
-//   {
-//     id: 1,
-//     name: 'Kempa Team T-Shirt Schwarz',
-//     href: '#',
-//     price: '15.09€',
-//     availability: 'Casual',
-//     imageSrc: 'Tshirt1.jpeg',
-//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-//     color: 'Schwarz',
-//   },
-//   {
-//     id: 2,
-//     name: 'Kempa Core 26 Shirt',
-//     href: '#',
-//     price: '23.49€',
-//     availability: 'Player',
-//     imageSrc: 'T-Shirt2.jpeg',
-//     color: 'Grün',
-//     imageAlt:
-//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-//   },
-// ];
+    await axios.post('/orders', state);
+
+    localStorage.removeItem('cart');
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
