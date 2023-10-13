@@ -10,27 +10,15 @@ POST http://localhost:2410/orders
 Content-Type: application/json
 
 {
-  "email": "bla@bla.com",
-  "telfonnummer": "bla",
-  "vornameEltern": "Lukas ",
-  "nachnameEltern": "Semler",
+  "email": "jane.doe@gmail.com",
+  "telfonnummer": "+43 660 3914245",
+  "vornameEltern": "Jane ",
+  "nachnameEltern": "Doe",
   "vornameSpieler": "Lukas ",
   "nachnameSpieler": "Semler",
-  "summe": 63.77,
+  "summe": 26.79,
   "jahrgang": "U12",
   "prods": [
-    {
-      "p_id": 9,
-      "name": "Kempa Wave 26 Trikot Kids Grün",
-      "explaination": "Leider gibt es zu diesem Produkt noch keine Beschreibung :(",
-      "price": "23.49",
-      "color": "Grün",
-      "number": "2003654-06",
-      "image": "ProductImages/Kempa Wave 26 Trikot Grün.jpeg",
-      "category": "Player",
-      "actualSize": "152",
-      "anzahl": "2"
-    },
     {
       "p_id": 12,
       "name": "Wave 26 Shorts Erwachsene",
@@ -42,6 +30,23 @@ Content-Type: application/json
       "category": "Player",
       "actualSize": "152",
       "anzahl": "1"
+    },
+      {
+      "p_id": 2,
+      "name": "Name 2",
+      "explaination": "Leider gibt es zu diesem Produkt noch keine Beschreibung :(",
+      "price": "10",
+      "color": "Schwarz",
+      "number": "2003656-01",
+      "image": "ProductImages/Wave 26 Shorts Erwachsene.jpeg",
+      "category": "Player",
+      "actualSize": "152",
+      "anzahl": "2"
     }
   ]
 }
+
+#######
+
+
+GET http://localhost:2410/orders

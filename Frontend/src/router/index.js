@@ -9,6 +9,8 @@ import AdminView from '../views/AdminView.vue';
 import CheckoutView from '../views/CheckoutView.vue';
 import ProductDetailView from '../views/ProductDetailView.vue';
 import OrderConfirmationView from '../views/OrderConfirmationView.vue';
+import AdminShowOrders from '../views/AdminShowOrders.vue';
+import AdminEditProducts from '../views/AdminEditProducts.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +65,16 @@ const router = createRouter({
       path: '/orderconfirmation',
       name: 'orderconfirmation',
       component: OrderConfirmationView,
+    },
+    {
+      path: '/adminShowOrders',
+      name: 'adminShowOrders',
+      component: AdminShowOrders,
+    },
+    {
+      path: '/adminEditProducts',
+      name: 'adminEditProducts',
+      component: AdminEditProducts,
     },
     //{ path: '/:pathmatch(.*)*', name: 'not-found', component: Error404 },
   ],

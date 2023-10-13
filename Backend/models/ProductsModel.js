@@ -117,4 +117,30 @@ const postProductDB = async (order) => {
   }
 };
 
-export { getProductsDB, getProductDB, postProductDB };
+const getOrdersDB = async () => {
+  const { rows } =
+    await query(`SELECT o.o_id                                                 as o_id,
+       concat(o."vornameEltern", ' ', o."nachnameEltern")     as eltern,
+       concat(o."vornameSpieler", ' ', o."nachnameSpieler")   as spieler,
+       o.email,
+       o.telefonnummer,
+       o.jahrgang,
+       o.sum,
+       oD.anzahl                                              as anzahl,
+       (SELECT name from sizes where oD.fk_size = sizes.s_id) as size,
+       p.p_id,
+       p.name,
+       p.price,
+       p.explaination,
+       p.color,
+       p.productnumber,
+       p.previewimage
+from "order" o
+         JOIN "orderDetail" oD on o.o_id = oD.fk_order
+         JOIN products p on p.p_id = oD.fk_product`);
+
+  if (rows[0]) return rows;
+  return false;
+};
+
+export { getProductsDB, getProductDB, postProductDB, getOrdersDB };

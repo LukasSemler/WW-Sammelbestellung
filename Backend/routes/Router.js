@@ -1,7 +1,8 @@
 /* eslint-disable import/extensions */
 import express from 'express';
 import asyncHandler from 'express-async-handler';
-import { getProducts, getProduct, postProduct } from '../controllers/ProductsController.js';
+import { getProducts, getProduct, postProduct, getOrders } from '../controllers/ProductsController.js';
+
 
 const router = express.Router();
 
@@ -11,6 +12,8 @@ router.get('/test', (req, res) => {
 
 router.get('/products', asyncHandler(getProducts));
 router.get('/products/:id', asyncHandler(getProduct));
+
 router.post('/orders', asyncHandler(postProduct));
+router.get('/orders', asyncHandler(getOrders));
 
 export default router;
