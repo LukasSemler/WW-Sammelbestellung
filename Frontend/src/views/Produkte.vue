@@ -45,7 +45,7 @@
                 <form class="mt-4">
                   <Disclosure
                     as="div"
-                    v-for="section in filters"
+                    v-for="section in filtersColor"
                     :key="section.name"
                     class="border-t border-gray-200 pb-4 pt-4"
                     v-slot="{ open }"
@@ -72,11 +72,108 @@
                             class="flex items-center"
                           >
                             <input
+                              v-model="selectedColor"
                               :id="`${section.id}-${optionIdx}-mobile`"
                               :name="`${section.id}[]`"
                               :value="option.value"
                               type="checkbox"
-                              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
+                            />
+                            <label
+                              :for="`${section.id}-${optionIdx}-mobile`"
+                              class="ml-3 text-sm text-gray-500"
+                              >{{ option.label }}</label
+                            >
+                          </div>
+                        </div>
+                      </DisclosurePanel>
+                    </fieldset>
+                  </Disclosure>
+                </form>
+                <form class="mt-4">
+                  <Disclosure
+                    as="div"
+                    v-for="section in filtersCategory"
+                    :key="section.name"
+                    class="border-t border-gray-200 pb-4 pt-4"
+                    v-slot="{ open }"
+                  >
+                    <fieldset>
+                      <legend class="w-full px-2">
+                        <DisclosureButton
+                          class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500"
+                        >
+                          <span class="text-sm font-medium text-gray-900">{{ section.name }}</span>
+                          <span class="ml-6 flex h-7 items-center">
+                            <ChevronDownIcon
+                              :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </DisclosureButton>
+                      </legend>
+                      <DisclosurePanel class="px-4 pb-2 pt-4">
+                        <div class="space-y-6">
+                          <div
+                            v-for="(option, optionIdx) in section.options"
+                            :key="option.value"
+                            class="flex items-center"
+                          >
+                            <input
+                              v-model="selectedCategory"
+                              :id="`${section.id}-${optionIdx}-mobile`"
+                              :name="`${section.id}[]`"
+                              :value="option.value"
+                              type="checkbox"
+                              class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
+                            />
+                            <label
+                              :for="`${section.id}-${optionIdx}-mobile`"
+                              class="ml-3 text-sm text-gray-500"
+                              >{{ option.label }}</label
+                            >
+                          </div>
+                        </div>
+                      </DisclosurePanel>
+                    </fieldset>
+                  </Disclosure>
+                </form>
+                <form class="mt-4">
+                  <Disclosure
+                    as="div"
+                    v-for="section in filtersSize"
+                    :key="section.name"
+                    class="border-t border-gray-200 pb-4 pt-4"
+                    v-slot="{ open }"
+                  >
+                    <fieldset>
+                      <legend class="w-full px-2">
+                        <DisclosureButton
+                          class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500"
+                        >
+                          <span class="text-sm font-medium text-gray-900">{{ section.name }}</span>
+                          <span class="ml-6 flex h-7 items-center">
+                            <ChevronDownIcon
+                              :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </DisclosureButton>
+                      </legend>
+                      <DisclosurePanel class="px-4 pb-2 pt-4">
+                        <div class="space-y-6">
+                          <div
+                            v-for="(option, optionIdx) in section.options"
+                            :key="option.value"
+                            class="flex items-center"
+                          >
+                            <input
+                              v-model="selectedSizes"
+                              :id="`${section.id}-${optionIdx}-mobile`"
+                              :name="`${section.id}[]`"
+                              :value="option.value"
+                              type="checkbox"
+                              class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
                             />
                             <label
                               :for="`${section.id}-${optionIdx}-mobile`"
@@ -122,7 +219,7 @@
             <div class="hidden lg:block">
               <form class="space-y-10 divide-y divide-gray-200">
                 <div
-                  v-for="(section, sectionIdx) in filters"
+                  v-for="(section, sectionIdx) in filtersColor"
                   :key="section.name"
                   :class="sectionIdx === 0 ? null : 'pt-10'"
                 >
@@ -137,11 +234,82 @@
                         class="flex items-center"
                       >
                         <input
+                          v-model="selectedColor"
                           :id="`${section.id}-${optionIdx}`"
                           :name="`${section.id}[]`"
                           :value="option.value"
                           type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
+                        />
+                        <label
+                          :for="`${section.id}-${optionIdx}`"
+                          class="ml-3 text-sm text-gray-600"
+                          >{{ option.label }}</label
+                        >
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </form>
+
+              <form class="space-y-10 divide-y divide-gray-200 mt-8">
+                <div
+                  v-for="(section, sectionIdx) in filtersCategory"
+                  :key="section.name"
+                  :class="sectionIdx === 0 ? null : 'pt-10'"
+                >
+                  <fieldset>
+                    <legend class="block text-sm font-medium text-gray-900">
+                      {{ section.name }}
+                    </legend>
+                    <div class="space-y-3 pt-6">
+                      <div
+                        v-for="(option, optionIdx) in section.options"
+                        :key="option.value"
+                        class="flex items-center"
+                      >
+                        <input
+                          v-model="selectedCategory"
+                          :id="`${section.id}-${optionIdx}`"
+                          :name="`${section.id}[]`"
+                          :value="option.value"
+                          type="checkbox"
+                          class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
+                        />
+                        <label
+                          :for="`${section.id}-${optionIdx}`"
+                          class="ml-3 text-sm text-gray-600"
+                          >{{ option.label }}</label
+                        >
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </form>
+
+              <form class="space-y-10 divide-y divide-gray-200 mt-8">
+                <div
+                  v-for="(section, sectionIdx) in filtersSize"
+                  :key="section.name"
+                  :class="sectionIdx === 0 ? null : 'pt-10'"
+                >
+                  <fieldset>
+                    <legend class="block text-sm font-medium text-gray-900">
+                      {{ section.name }}
+                    </legend>
+                    <div class="space-y-3 pt-6">
+                      <div
+                        v-for="(option, optionIdx) in section.options"
+                        :key="option.value"
+                        class="flex items-center"
+                      >
+                        <input
+                          v-model="selectedSizes"
+                          :id="`${section.id}-${optionIdx}`"
+                          :name="`${section.id}[]`"
+                          :value="option.value"
+                          type="checkbox"
+                          class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwDarkGreen"
                         />
                         <label
                           :for="`${section.id}-${optionIdx}`"
@@ -162,10 +330,11 @@
             <div class="bg-white">
               <div class="mx-auto max-w-7xl overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
                 <div
+                  v-if="filteredProducts.length > 0"
                   class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8"
                 >
                   <a
-                    v-for="product in products"
+                    v-for="product in filteredProducts"
                     :key="product.p_id"
                     class="group text-sm"
                     @click="router.push(`/productdetailview/${product.p_id}`)"
@@ -184,6 +353,9 @@
                     <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
                   </a>
                 </div>
+                <h1 class="text-center text-2xl font-medium text-gray-900">
+                  Leider wurden keine Produkte gefunden :(
+                </h1>
               </div>
             </div>
           </div>
@@ -194,7 +366,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import {
   Dialog,
   DialogPanel,
@@ -218,17 +390,20 @@ onMounted(async () => {
   products.value = data;
 });
 
-const filters = [
+const filtersColor = ref([
   {
     id: 'color',
     name: 'Color',
     options: [
       { value: 'weiss', label: 'Weiss' },
-      { value: 'schwarz', label: 'Schwarz' },
-      { value: 'gruen', label: 'Gruen' },
+      { value: 'Schwarz', label: 'Schwarz' },
+      { value: 'Grün', label: 'Grün' },
       { value: 'grau', label: 'Grau' },
     ],
   },
+]);
+
+const filtersCategory = ref([
   {
     id: 'category',
     name: 'Category',
@@ -238,20 +413,50 @@ const filters = [
       { value: 'fan', label: 'Fans' },
     ],
   },
+]);
+
+const filtersSize = ref([
   {
     id: 'sizes',
     name: 'Sizes',
     options: [
       { value: '152', label: '152' },
       { value: '164', label: '164' },
-      { value: 's', label: 'S' },
-      { value: 'm', label: 'M' },
-      { value: 'l', label: 'L' },
-      { value: 'xl', label: 'XL' },
+      { value: 'S', label: 'S' },
+      { value: 'M', label: 'M' },
+      { value: 'L', label: 'L' },
+      { value: 'XL', label: 'XL' },
     ],
   },
-];
+]);
+
+let selectedColor = ref([]);
+let selectedCategory = ref([]);
+let selectedSizes = ref([]);
+
+// const filteredProducts = computed(() => {
+//   return products.value.filter(
+//     (product) => selectedColor.value.includes(product.color) || selectedColor.value.length === 0,
+//   );
+// });
+
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    // Check if the product matches the selected filters
+    const matchesColor =
+      selectedColor.value.includes(product.color) || selectedColor.value.length === 0;
+    const matchesCategory =
+      selectedCategory.value.includes(product.category) || selectedCategory.value.length === 0;
+
+    // Check if at least one selected size is included in the product's array of sizes
+    const matchesSize =
+      selectedSizes.value.length === 0 ||
+      selectedSizes.value.some((selected) => product.sizes.includes(selected));
+
+    // Return true for products that match all selected filters
+    return matchesColor && matchesSize && matchesCategory;
+  });
+});
 
 const mobileFiltersOpen = ref(false);
-
 </script>
