@@ -67,12 +67,6 @@ const actions = [
     path: '/adminEditProducts',
   },
   {
-    name: 'Produkt loeschen',
-    icon: TrashIcon,
-    members: 16,
-    bgColor: 'bg-wwGray',
-  },
-  {
     name: 'Bestellungen ansehen',
     icon: EyeIcon,
     members: 8,
@@ -84,6 +78,7 @@ const actions = [
     icon: WrenchIcon,
     members: 8,
     bgColor: 'bg-wwGray',
+    path: '/adminSetFrist',
   },
 ];
 </script>

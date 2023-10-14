@@ -11,6 +11,8 @@ import ProductDetailView from '../views/ProductDetailView.vue';
 import OrderConfirmationView from '../views/OrderConfirmationView.vue';
 import AdminShowOrders from '../views/AdminShowOrders.vue';
 import AdminEditProducts from '../views/AdminEditProducts.vue';
+import AdminSetFrist from '../views/AdminSetFrist.vue';
+import Error404 from '../views/Error404.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,7 +78,12 @@ const router = createRouter({
       name: 'adminEditProducts',
       component: AdminEditProducts,
     },
-    //{ path: '/:pathmatch(.*)*', name: 'not-found', component: Error404 },
+    {
+      path: '/adminSetFrist',
+      name: 'adminSetFrist',
+      component: AdminSetFrist,
+    },
+    { path: '/:pathmatch(.*)*', name: 'not-found', component: Error404 },
   ],
 });
 

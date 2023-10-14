@@ -129,6 +129,7 @@
                     Bearbeiten
                   </button>
                   <button
+                    @click="deleteProduct(product)"
                     type="button"
                     class="inline-flex items-center gap-x-1.5 rounded-md bg-wwRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwRed mx-2"
                   >
@@ -167,4 +168,14 @@ onMounted(async () => {
   console.log(data);
   products.value = data;
 });
+
+async function deleteProduct(product) {
+  try {
+    await axios.delete(`/products/${product.p_id}`);
+
+    products.value = products.value.filter((p) => p.p_id != product.p_id);
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>

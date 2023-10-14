@@ -201,6 +201,17 @@
             labore iste fugit obcaecati dolores. At repellat accusamus modi, quae ab similique
             quidem cumque mollitia, libero voluptatum, sunt explicabo!
           </p>
+
+          <div class="mt-8" v-if="fristToOrder">
+            <vue3-flip-countdown
+              mainFlipBackgroundColor="#9BCF39"
+              secondFlipBackgroundColor="#6B8F28"
+              mainColor="#1E2224"
+              secondFlipColor="#1E2224"
+              :deadline="fristToOrder"
+            ></vue3-flip-countdown>
+          </div>
+          <div v-else></div>
         </div>
 
         <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
@@ -353,7 +364,7 @@
                     <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
                   </a>
                 </div>
-                <h1 class="text-center text-2xl font-medium text-gray-900">
+                <h1 v-else class="text-center text-2xl font-medium text-gray-900">
                   Leider wurden keine Produkte gefunden :(
                 </h1>
               </div>
@@ -383,12 +394,31 @@ import axios from 'axios';
 
 const router = useRouter();
 const products = ref([]);
+let fristToOrder = ref(null);
 
 onMounted(async () => {
   const { data } = await axios.get('/products');
-  console.log(data);
+  const { data: data2 } = await axios.get('/frist');
+  console.log(data2[0].zeitpunkt);
   products.value = data;
+  const res = formateDate(data2[0].zeitpunkt);
+  console.log(res);
+  fristToOrder.value = res;
 });
+
+function formateDate(date) {
+  Number.prototype.padLeft = function (base, chr) {
+    var len = String(base || 10).length - String(this).length + 1;
+    return len > 0 ? new Array(len).join(chr || '0') + this : this;
+  };
+
+  let d = new Date(date);
+  return (
+    [d.getFullYear(), (d.getMonth() + 1).padLeft(), d.getDate().padLeft()].join('-') +
+    ' ' +
+    [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':')
+  );
+}
 
 const filtersColor = ref([
   {
@@ -433,12 +463,6 @@ const filtersSize = ref([
 let selectedColor = ref([]);
 let selectedCategory = ref([]);
 let selectedSizes = ref([]);
-
-// const filteredProducts = computed(() => {
-//   return products.value.filter(
-//     (product) => selectedColor.value.includes(product.color) || selectedColor.value.length === 0,
-//   );
-// });
 
 const filteredProducts = computed(() => {
   return products.value.filter((product) => {

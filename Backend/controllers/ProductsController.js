@@ -3,6 +3,9 @@ import {
   getProductDB,
   postProductDB,
   getOrdersDB,
+  deleteProductsDB,
+  setFristDB,
+  getFristDB,
 } from '../models/ProductsModel.js';
 
 const getProducts = async (req, res) => {
@@ -40,6 +43,15 @@ const getOrders = async (req, res) => {
   return res.status(500).send('Internal Server Error');
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await deleteProductsDB(id);
+
+  if (result) return res.status(200).send('Product wurde erfolgreich gelöscht');
+  return res.status(500).send('Fehler beim Löschen des Products');
+};
+
 function convertArrayOfObjectsToCSV(data) {
   const array = typeof data !== 'object' ? JSON.parse(data) : data;
   let csv = '';
@@ -66,4 +78,21 @@ function convertArrayOfObjectsToCSV(data) {
   return csv;
 }
 
-export { getProducts, getProduct, postProduct, getOrders };
+const setFrist = async (req, res) => {
+  const { zeitpunkt } = req.body;
+  console.log(zeitpunkt);
+
+  const result = await setFristDB(zeitpunkt);
+
+  if (result) return res.status(200).send('Frist wurde erfolgreich gesetzt');
+  return res.status(500).send('Fehler beim setzen der Frist');
+};
+
+const getFrist = async (req, res) => {
+  const result = await getFristDB();
+
+  if (result) return res.status(200).json(result);
+  return res.status(500).send('Internal Server Error');
+};
+
+export { getProducts, getProduct, postProduct, getOrders, deleteProduct, setFrist, getFrist };

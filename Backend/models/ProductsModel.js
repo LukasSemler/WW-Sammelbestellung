@@ -143,4 +143,62 @@ from "order" o
   return false;
 };
 
-export { getProductsDB, getProductDB, postProductDB, getOrdersDB };
+const deleteProductsDB = async (id) => {
+  try {
+    const { rows: rows } = await query(
+      'DELETE FROM "productsVariation" where "fk_product_ID" = $1 returning *;',
+      [id],
+    );
+
+    if (rows[0]) {
+      const { rows: rows2 } = await query('DELETE FROM products where p_id = $1 returning *;', [
+        id,
+      ]);
+      console.log(rows2[0]);
+
+      if (rows2[0]) return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const setFristDB = async (zeitpunkt) => {
+  const { rows } = await query('SELECT * FROM info');
+
+  if (rows[0]) {
+    const { rows: rows2 } = await query(
+      'UPDATE info set zeitpunkt = $1 WHERE i_id = $2 returning *;',
+      [zeitpunkt, rows[0].i_id],
+    );
+
+    if (rows2[0]) return true;
+  } else {
+    const { rows } = await query('INSERT INTO info (zeitpunkt) VALUES ($1) returning *;', [
+      zeitpunkt,
+    ]);
+
+    if (rows[0]) return true;
+  }
+  return false;
+};
+
+const getFristDB = async () => {
+  const { rows } = await query('SELECT * FROM info');
+
+  if (rows[0]) return rows;
+  return false;
+};
+
+export {
+  getProductsDB,
+  getProductDB,
+  postProductDB,
+  getOrdersDB,
+  deleteProductsDB,
+  setFristDB,
+  getFristDB,
+};
