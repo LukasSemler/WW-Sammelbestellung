@@ -1,4 +1,35 @@
 <template>
+  <nav class="flex" aria-label="Breadcrumb">
+    <ol role="list" class="flex items-center space-x-4 px-4 sm:px-6 lg:px-8 mt-5">
+      <li>
+        <div>
+          <a href="/" class="text-gray-400 hover:text-gray-500">
+            <HomeIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+            <span class="sr-only">Home</span>
+          </a>
+        </div>
+      </li>
+      <li v-for="page in pages" :key="page.name">
+        <div class="flex items-center">
+          <svg
+            class="h-5 w-5 flex-shrink-0 text-gray-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
+            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+          </svg>
+          <a
+            @click="router.push(page.href)"
+            class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+            :aria-current="page.current ? 'page' : undefined"
+            >{{ page.name }}</a
+          >
+        </div>
+      </li>
+    </ol>
+  </nav>
+
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div
     aria-live="assertive"
@@ -65,7 +96,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
               <img
-                :src="`../../public/${product.image}`"
+                :src="`http://localhost:2410${product.image}`"
                 :alt="product.name"
                 class="lg:col-span-2 lg:row-span-2"
               />
@@ -193,16 +224,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
-import { CheckCircleIcon } from '@heroicons/vue/24/outline';
+import { CheckCircleIcon, HomeIcon } from '@heroicons/vue/24/outline';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { wwStore } from '../store/Store.js';
+import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
-const store = wwStore();
+const store = westwien();
 
 let anzahl = ref('1');
 const product = ref({
@@ -219,6 +250,17 @@ const product = ref({
     <p>Looking to stock your closet? The Basic tee also comes in a 3-pack or 5-pack at a bundle discount.</p>
   `,
 });
+
+const currentProduct = computed(() => {
+  const name = product.value.name;
+  name.replace('"', '');
+  return product.value.name;
+});
+
+const pages = [
+  { name: 'Produkte', href: '/produkte', current: false },
+  { name: currentProduct, href: router.currentRoute, current: true },
+];
 
 const show = ref(false);
 
@@ -239,7 +281,6 @@ function addToCart(product) {
     let basket = JSON.parse(localStorage.getItem('cart'));
     basket.push(product);
     localStorage.setItem('cart', JSON.stringify(basket));
-    store.basket = basket;
 
     show.value = true;
 
@@ -252,7 +293,6 @@ function addToCart(product) {
 
     basket.push(product);
     localStorage.setItem('cart', JSON.stringify(basket));
-    store.basket = basket;
 
     show.value = true;
 

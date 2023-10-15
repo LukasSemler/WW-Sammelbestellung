@@ -59,3 +59,30 @@ DELETE http://localhost:2410/products/21
 ######
 
 GET http://localhost:2410/exportOrders
+
+
+######
+
+POST http://localhost:2410/login
+Content-Type: application/json
+
+{
+  "email": "admin@handball-westwien.at",
+  "password": "admin"
+}
+
+#####
+POST http://localhost:2410/products
+Content-Type: application/json
+
+{
+  "name": "Hoodie",
+  "artikelNummer": "ABCDEFG",
+  "farbe": "Grau",
+  "preis": "29.99",
+  "groessen": [ "XL", "L", "M" ],
+  "imageSchicken": { "datentyp": "jpeg" },
+  "linkImage": "/images/Hoodie.jpeg",
+  "category": { "id": 1, "name": "Casual" }
+}
+

@@ -11,8 +11,8 @@
       <div class="flex h-20 items-center justify-between">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <img class="block h-16 w-auto lg:hidden" src="/logo1.png" alt="Westwien Logo" />
-            <img class="hidden h-16 w-auto lg:block" src="/logo1.png" alt="Westwien Logo" />
+            <img class="block h-16 w-auto lg:hidden" src="/logo3.png" alt="Westwien Logo" />
+            <img class="hidden h-16 w-auto lg:block" src="/logo3.png" alt="Westwien Logo" />
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
@@ -35,18 +35,14 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-3" v-if="store.getAktiverUser">
+            <Menu as="div" class="relative ml-3" v-if="store.getAktivenUser">
               <div>
                 <MenuButton
                   class="relative flex items-center rounded-full bg-wwGreen text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-wwDarkGreen"
                 >
                   <span class="absolute -inset-1.5" />
                   <span class="sr-only">Open user menu</span>
-                  <img
-                    class="h-8 w-8 rounded-full"
-                    alt="Profilbild"
-                    :src="store.getAktiverUser.profilbild_url"
-                  />
+                  <img class="h-8 w-8 rounded-full" alt="Profilbild" src="logo4.png" />
                 </MenuButton>
               </div>
               <transition
@@ -165,10 +161,10 @@ import {
 } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
-import { wwStore } from '../store/Store.js';
+import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
-const store = wwStore();
+const store = westwien();
 
 const navigation = [
   { name: 'Home', path: '/', current: true },
@@ -177,5 +173,5 @@ const navigation = [
   { name: 'FAQ', path: '/faq', current: false },
 ];
 
-const userNavigation = [{ name: 'Sign out', href: '#' }];
+const userNavigation = [{ name: 'Abmelden', href: '/' }];
 </script>

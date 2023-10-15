@@ -74,10 +74,10 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { wwStore } from '../store/Store.js';
+import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
-const store = wwStore();
+const store = westwien();
 const state = reactive({
   email: '',
   password: '',

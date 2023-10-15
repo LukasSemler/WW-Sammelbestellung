@@ -84,8 +84,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { wwStore } from '../store/Store';
+import { westwien } from '../Store/westwienStore';
 
 const router = useRouter();
-const store = wwStore();
+const store = westwien();
 </script>

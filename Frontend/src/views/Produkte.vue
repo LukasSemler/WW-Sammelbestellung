@@ -354,7 +354,8 @@
                       class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
                     >
                       <img
-                        :src="product.image"
+                        crossorigin="anonymous"
+                        :src="`http://localhost:2410/${product.image}`"
                         :alt="product.name"
                         class="h-full w-full object-cover object-center"
                       />
@@ -425,10 +426,10 @@ const filtersColor = ref([
     id: 'color',
     name: 'Color',
     options: [
-      { value: 'weiss', label: 'Weiss' },
+      { value: 'Weiss', label: 'Weiss' },
       { value: 'Schwarz', label: 'Schwarz' },
       { value: 'Grün', label: 'Grün' },
-      { value: 'grau', label: 'Grau' },
+      { value: 'Grau', label: 'Grau' },
     ],
   },
 ]);

@@ -174,11 +174,4 @@ function downloadCSV(data, filename) {
   // Clean up by revoking the Blob URL
   window.URL.revokeObjectURL(url);
 }
-
-// Example usage:
-const data = [
-  { name: 'John Doe', age: 30, city: 'New York' },
-  { name: 'Jane Smith', age: 28, city: 'San Francisco' },
-  // Add more objects as needed
-];
 </script>

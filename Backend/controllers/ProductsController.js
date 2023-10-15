@@ -1,13 +1,20 @@
 import {
   getProductsDB,
   getProductDB,
-  postProductDB,
+  postOrderDB,
   getOrdersDB,
   deleteProductsDB,
   setFristDB,
   getFristDB,
   exportOrdersDB,
+  loginDB,
+  postProductDB,
 } from '../models/ProductsModel.js';
+
+import fs from 'fs';
+import path from 'path';
+
+const dirname = path.resolve();
 
 const getProducts = async (req, res) => {
   const result = await getProductsDB();
@@ -24,11 +31,11 @@ const getProduct = async (req, res) => {
   return res.status(500).send('Internal Server Error');
 };
 
-const postProduct = async (req, res) => {
+const postOrder = async (req, res) => {
   const daten = req.body;
   console.log(daten);
 
-  const result = await postProductDB(daten);
+  const result = await postOrderDB(daten);
 
   if (result) return res.status(200).json(result);
   return res.status(500).send('Error');
@@ -103,13 +110,64 @@ const exportOrders = async (req, res) => {
   return res.status(500).send('Internal Server Error');
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const result = await loginDB(email, password);
+
+  if (result) return res.status(200).json(result);
+  return res.status(500).send('Internal Server Error');
+};
+
+const postProductImage = async (req, res) => {
+  try {
+    const { titel, datentyp } = req.body;
+
+    console.log('Titel: ' + titel, '| Datentyp: ' + datentyp);
+
+    const uniqueImageName = path.join(dirname, `public/images/${titel}.${datentyp}`);
+    //schauen ob das Bild schon existiert, wenn ja löschen und neu erstellen
+    if (fs.existsSync(`${dirname}/public/images/${titel}.${datentyp}`)) {
+      fs.unlinkSync(`${dirname}/public/images/${titel}.${datentyp}`);
+    }
+
+    fs.writeFileSync(`${uniqueImageName}`, req.files.image.data);
+
+    res.status(200).send('Success');
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Something went wrong');
+  }
+};
+
+const postProduct = async (req, res) => {
+  const { name, artikelNummer, farbe, preis, groessen, imageSchicken, linkImage, category } =
+    req.body;
+
+  const result = await postProductDB(
+    name,
+    artikelNummer,
+    farbe,
+    preis,
+    groessen,
+    imageSchicken,
+    linkImage,
+    category,
+  );
+
+  console.log(req.body);
+};
+
 export {
   getProducts,
   getProduct,
-  postProduct,
+  postOrder,
   getOrders,
   deleteProduct,
   setFrist,
   getFrist,
   exportOrders,
+  login,
+  postProductImage,
+  postProduct,
 };

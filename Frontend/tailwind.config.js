@@ -6,6 +6,7 @@ module.exports = {
         wwGreen: '#9BCF39',
         wwDarkGreen: '#6B8F28',
         wwLightGreen: '#A4DB3D',
+        wwLightGray: '#BABABA',
         wwGray: '#2c3234',
         wwDarkGray: '#1E2224',
         wwRed: '#FE013D',

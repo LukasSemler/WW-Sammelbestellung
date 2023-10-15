@@ -54,7 +54,7 @@ ORDER BY p.p_id;`,
   return false;
 };
 
-const postProductDB = async (order) => {
+const postOrderDB = async (order) => {
   const db = await pool.connect();
   try {
     // Open Transaction
@@ -206,8 +206,19 @@ from "order" o
 
   if (rows[0]) {
     const csv = convertArrayOfObjectsToCSV(rows);
-    console.log(csv);
     return csv;
+  }
+  return false;
+};
+
+const loginDB = async (email, password) => {
+  const { rows } = await query('SELECT * FROM "adminUser" where email = $1 and password = $2;', [
+    email,
+    password,
+  ]);
+
+  if (rows[0]) {
+    return rows[0];
   }
   return false;
 };
@@ -238,13 +249,63 @@ function convertArrayOfObjectsToCSV(data) {
   return csvContent;
 }
 
+const postProductDB = async (
+  name,
+  artikelNummer,
+  farbe,
+  preis,
+  groessen,
+  imageSchicken,
+  linkImage,
+  category,
+) => {
+  const db = await pool.connect();
+  try {
+    // Open Transaction
+    await db.query('BEGIN');
+
+    //Zuerst Product erstellen
+    const { rows } = await db.query(
+      `INSERT INTO products (name, price, explaination, color, productnumber, previewimage, "fk_categories_ID") VALUES 
+      ($1, $2, 'Leider gibt es zu diesem Produkt noch keine Beschreibung :(', $3, $4, $5, $6) returning *;`,
+      [name, preis, farbe, artikelNummer, linkImage, category.id],
+    );
+
+    if (rows[0]) {
+      //Dann die Groessen
+      for (const groesse of groessen) {
+        const { rows: rows2 } = await db.query(
+          'INSERT INTO "productsVariation" ("fk_product_ID", "fk_size_ID") VALUES ($1, (SELECT s_id FROM sizes WHERE name = $2)) returning *;',
+          [rows[0].p_id, groesse],
+        );
+
+        if (!rows2[0]) {
+          await db.query('ROLLBACK');
+          return false;
+        }
+
+        await db.query('COMMIT');
+      }
+
+      await db.query('ROLLBACK');
+    }
+  } catch (error) {
+    console.log(error);
+    db.query('ROLLBACK');
+  } finally {
+    await db.release();
+  }
+};
+
 export {
   getProductsDB,
   getProductDB,
-  postProductDB,
+  postOrderDB,
   getOrdersDB,
   deleteProductsDB,
   setFristDB,
   getFristDB,
   exportOrdersDB,
+  loginDB,
+  postProductDB,
 };

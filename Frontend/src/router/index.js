@@ -12,7 +12,10 @@ import OrderConfirmationView from '../views/OrderConfirmationView.vue';
 import AdminShowOrders from '../views/AdminShowOrders.vue';
 import AdminEditProducts from '../views/AdminEditProducts.vue';
 import AdminSetFrist from '../views/AdminSetFrist.vue';
+import AdminAddProduct from '../views/AdminAddProduct.vue';
 import Error404 from '../views/Error404.vue';
+
+import { westwien } from '../Store/westwienStore.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +54,14 @@ const router = createRouter({
       path: '/admin',
       name: 'adminview',
       component: AdminView,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
     },
     {
       path: '/productdetailview/:id',
@@ -72,16 +83,53 @@ const router = createRouter({
       path: '/adminShowOrders',
       name: 'adminShowOrders',
       component: AdminShowOrders,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
     },
     {
       path: '/adminEditProducts',
       name: 'adminEditProducts',
       component: AdminEditProducts,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
     },
     {
       path: '/adminSetFrist',
       name: 'adminSetFrist',
       component: AdminSetFrist,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
+    },
+    {
+      path: '/adminAddProduct',
+      name: 'adminAddProduct',
+      component: AdminAddProduct,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
     },
     { path: '/:pathmatch(.*)*', name: 'not-found', component: Error404 },
   ],

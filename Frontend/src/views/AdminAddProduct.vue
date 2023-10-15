@@ -1,0 +1,451 @@
+<template>
+  <form>
+    <div class="flex flex-row justify-end mt-8 mr-8">
+      <button
+        @click="createProduct"
+        type="button"
+        class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
+      >
+        Erstellen
+      </button>
+    </div>
+    <div class="flex flex-row">
+      <div class="w-1/3 ml-12">
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900"
+              >Produkt Bild</label
+            >
+            <div
+              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+            >
+              <div v-if="!image" class="space-y-1 text-center">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label
+                    for="thumbnail"
+                    class="relative cursor-pointer bg-white rounded-md font-medium text-wwGreen hover:text-wwDarkGreen focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-wwGreen"
+                  >
+                    <span class="text-center text-wwGreen">Upload a file</span>
+                    <input
+                      id="thumbnail"
+                      name="thumbnail"
+                      type="file"
+                      class="sr-only"
+                      @change="onFileChanged"
+                      accept="image/*"
+                    />
+                  </label>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, JPEG</p>
+              </div>
+              <div v-else>
+                <div class="flex justify-center">
+                  <img
+                    crossorigin="anonymous"
+                    class="object-scale-down h-48 w-96 mt-3"
+                    :src="image"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div v-if="image" class="flex justify-center">
+              <button
+                @click="image = null"
+                type="button"
+                class="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-wwRed hover:bg-wwDarkRed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-wwRed"
+              >
+                <TrashIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                Bild entfernen
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-2/3 mr-8 ml-48">
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="col-span-full">
+            <label for="name" class="block text-sm font-medium leading-6 text-gray-900"
+              >Name des Produkts</label
+            >
+            <div class="mt-2">
+              <input
+                v-model="state.name"
+                type="text"
+                name="name"
+                id="name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div class="col-span-full">
+            <label for="nummer" class="block text-sm font-medium leading-6 text-gray-900"
+              >Artikelnummer</label
+            >
+            <div class="mt-2">
+              <input
+                v-model="state.artikelNummer"
+                type="text"
+                name="nummer"
+                id="nummer"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <Listbox as="div" v-model="selectedColor">
+              <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900"
+                >Farbe des Produkts</ListboxLabel
+              >
+              <div class="relative mt-2">
+                <ListboxButton
+                  class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-wwGreen sm:text-sm sm:leading-6"
+                >
+                  <span class="flex items-center">
+                    <div
+                      v-if="selectedColor.color != 'none'"
+                      :class="[
+                        selectedColor.color,
+                        'h-5 w-5 flex-shrink-0 rounded-full border-2 border-gray-900',
+                      ]"
+                    />
+                    <span class="ml-3 block truncate">{{ selectedColor.name }}</span>
+                  </span>
+                  <span
+                    class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
+                  >
+                    <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </ListboxButton>
+
+                <transition
+                  leave-active-class="transition ease-in duration-100"
+                  leave-from-class="opacity-100"
+                  leave-to-class="opacity-0"
+                >
+                  <ListboxOptions
+                    class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  >
+                    <ListboxOption
+                      as="template"
+                      v-for="color in colors"
+                      :key="color.id"
+                      :value="color"
+                      v-slot="{ active, selectedColor }"
+                    >
+                      <li
+                        :class="[
+                          active ? 'bg-wwGreen text-white' : 'text-gray-900',
+                          'relative cursor-default select-none py-2 pl-3 pr-9',
+                        ]"
+                      >
+                        <div class="flex items-center">
+                          <div
+                            v-if="color.color != 'none'"
+                            :class="[
+                              color.color,
+                              'h-5 w-5 flex-shrink-0 rounded-full border-2 border-gray-900',
+                            ]"
+                          />
+                          <span
+                            :class="[
+                              selectedColor ? 'font-semibold' : 'font-normal',
+                              'ml-3 block truncate',
+                            ]"
+                            >{{ color.name }}</span
+                          >
+                        </div>
+
+                        <span
+                          v-if="selectedColor"
+                          :class="[
+                            active ? 'text-white' : 'text-wwGreen',
+                            'absolute inset-y-0 right-0 flex items-center pr-4',
+                          ]"
+                        >
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </div>
+            </Listbox>
+          </div>
+
+          <div class="sm:col-span-2">
+            <Listbox as="div" v-model="selectedCategory">
+              <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900"
+                >Kategorie</ListboxLabel
+              >
+              <div class="relative mt-2">
+                <ListboxButton
+                  class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-wwGreen sm:text-sm sm:leading-6"
+                >
+                  <span class="flex items-center">
+                    <span class="ml-3 block truncate">{{ selectedCategory.name }}</span>
+                  </span>
+                  <span
+                    class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
+                  >
+                    <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </ListboxButton>
+
+                <transition
+                  leave-active-class="transition ease-in duration-100"
+                  leave-from-class="opacity-100"
+                  leave-to-class="opacity-0"
+                >
+                  <ListboxOptions
+                    class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  >
+                    <ListboxOption
+                      as="template"
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category"
+                      v-slot="{ active, selectedCategory }"
+                    >
+                      <li
+                        :class="[
+                          active ? 'bg-wwGreen text-white' : 'text-gray-900',
+                          'relative cursor-default select-none py-2 pl-3 pr-9',
+                        ]"
+                      >
+                        <div class="flex items-center">
+                          <span
+                            :class="[
+                              selectedCategory ? 'font-semibold' : 'font-normal',
+                              'ml-3 block truncate',
+                            ]"
+                            >{{ category.name }}</span
+                          >
+                        </div>
+
+                        <span
+                          v-if="selectedCategory"
+                          :class="[
+                            active ? 'text-white' : 'text-wwGreen',
+                            'absolute inset-y-0 right-0 flex items-center pr-4',
+                          ]"
+                        >
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </div>
+            </Listbox>
+          </div>
+
+          <div class="col-span-2">
+            <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900"
+              >Preis</label
+            >
+            <div class="relative mt-2 rounded-md shadow-sm">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <span class="text-gray-500 sm:text-sm">€</span>
+              </div>
+              <input
+                v-model="state.preis"
+                type="text"
+                name="price"
+                id="price"
+                class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
+                placeholder="0.00"
+                aria-describedby="price-currency"
+              />
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                <span class="text-gray-500 sm:text-sm" id="price-currency">EUR</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <fieldset>
+              <legend class="text-base font-semibold leading-6 text-gray-900">Groessen</legend>
+              <div class="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
+                <div
+                  v-for="(size, sizeIdx) in sizes"
+                  :key="sizeIdx"
+                  class="relative flex items-start py-4"
+                >
+                  <div class="min-w-0 flex-1 text-sm leading-6">
+                    <label :for="`size-${size.id}`" class="select-none font-medium text-gray-900">{{
+                      size.name
+                    }}</label>
+                  </div>
+                  <div class="ml-3 flex h-6 items-center">
+                    <input
+                      v-model="state.groessen"
+                      :id="`size-${size.id}`"
+                      :name="`size-${size.id}`"
+                      :value="size.name"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwGreen"
+                    />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>
+
+<script setup>
+import { TrashIcon } from '@heroicons/vue/24/solid';
+import {
+  Listbox,
+  ListboxButton,
+  ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/vue';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { ref, reactive } from 'vue';
+import axios from 'axios';
+
+const colors = [
+  { id: 1, name: 'Schwarz', color: 'bg-black' },
+  { id: 2, name: 'Grün', color: 'bg-wwGreen' },
+  { id: 3, name: 'Grau', color: 'bg-wwLightGray' },
+  { id: 4, name: 'Weiss', color: 'bg-white' },
+  { id: 5, name: 'Keine Farbe', color: 'none' },
+];
+
+const categories = [
+  { id: 1, name: 'Casual' },
+  { id: 2, name: 'Player' },
+  { id: 3, name: 'Fan' },
+];
+
+const sizes = [
+  { id: 1, name: '152' },
+  { id: 2, name: '164' },
+  { id: 3, name: 'S' },
+  { id: 4, name: 'M' },
+  { id: 5, name: 'L' },
+  { id: 6, name: 'XL' },
+  { id: 7, name: 'Keine Groesse' },
+];
+
+const selectedColor = ref(colors[0]);
+const selectedCategory = ref(categories[0]);
+
+let image = ref(null);
+
+const state = reactive({
+  name: '',
+  artikelNummer: '',
+  farbe: '',
+  preis: null,
+  groessen: [],
+  imageSchicken: null,
+});
+
+//Bild hochladen
+function onFileChanged(event) {
+  {
+    // Reference to the DOM input element
+    let input = event.target;
+    state.imageSchicken = event.target.files[0];
+
+    const name = state.imageSchicken.name;
+
+    if (name.includes('.jpg')) {
+      state.imageSchicken.datentyp = 'jpg';
+    } else if (name.includes('.png')) {
+      state.imageSchicken.datentyp = 'png';
+    } else if (name.includes('.jpeg')) {
+      state.imageSchicken.datentyp = 'jpeg';
+    } else {
+      console.log('IMAGE-DATENTYP NICHT ZULÄSSIG');
+    }
+
+    // Ensure that you have a file before attempting to read it
+    if (input.files && input.files[0]) {
+      // create a new FileReader to read this image and convert to base64 format
+      let reader = new FileReader();
+      // Define a callback function to run, when FileReader finishes its job
+      reader.onload = (e) => {
+        // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+        // Read image as base64 and set to imageData
+        image.value = e.target.result;
+      };
+      // Start the reader job - read file as a data url (base64 format)
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+}
+
+async function createProduct() {
+  try {
+    await sendImage();
+    await sendData();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//Daten + Bild an Backend schicken
+async function sendImage() {
+  try {
+    //FormData bauen
+    let formData = new FormData();
+    formData.append('image', state.imageSchicken);
+    formData.append('titel', state.name);
+    formData.append('datentyp', state.imageSchicken.datentyp);
+
+    //an server schicken
+    await axios.post(`/productImage`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error.message);
+
+    return false;
+  }
+}
+
+//Sendet eingegebenen Daten an den Server, der diese dann in der DB speichert
+async function sendData() {
+  try {
+    state.linkImage = `/images/${state.name}.${state.imageSchicken.datentyp}`;
+    state.farbe = selectedColor.value.name;
+    state.category = selectedCategory.value;
+    let { status } = await axios.post('/products', state);
+    if (status == 210) {
+      throw 'Fehler beim Produkt erstellen, auf der Datenbankseite';
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+}
+</script>

@@ -17,7 +17,6 @@
               id="email"
               name="email"
               type="email"
-              autocomplete="email"
               class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
             />
           </div>
@@ -39,14 +38,6 @@
               class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
             />
           </div>
-          <p class="mt-3 text-sm font-medium text-gray-900">
-            Noch keinen Account,
-            <span
-              class="text-wwGreen underline hover:cursor-pointer"
-              @click="router.push('/register')"
-              >Registrieren</span
-            >
-          </p>
         </div>
 
         <div>
@@ -73,10 +64,10 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { wwStore } from '../store/Store.js';
+import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
-const store = wwStore();
+const store = westwien();
 const state = reactive({
   email: '',
   password: '',
@@ -91,16 +82,18 @@ async function signin(e) {
     state.password.length > 0
   ) {
     const { data } = await axios.post('/login', {
-      email: state.email,
+      email: state.email.toLocaleLowerCase(),
       password: state.password,
     });
+
+    console.log(data);
 
     if (data) {
       store.setAktivenUser(data);
       console.log(data);
 
       //Weiterleitung auf HomeSeite
-      router.push('/');
+      router.push('/admin');
     } else {
       console.log('Error');
     }

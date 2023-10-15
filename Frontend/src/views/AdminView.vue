@@ -58,6 +58,7 @@ const actions = [
     icon: PlusIcon,
     members: 16,
     bgColor: 'bg-wwGray',
+    path: '/adminAddProduct',
   },
   {
     name: 'Vorhandenes Produkt anpassen',
