@@ -141,8 +141,6 @@ onMounted(async () => {
   try {
     const { data } = await axios.get('/orders');
 
-    console.log(data);
-
     orders.value = data;
   } catch (error) {
     console.log(error);
@@ -151,7 +149,6 @@ onMounted(async () => {
 
 async function exportOrders() {
   const { data: csv } = await axios.get('/exportOrders');
-  console.log(csv);
 
   downloadCSV(csv, 'orders.csv');
 }

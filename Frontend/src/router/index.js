@@ -13,6 +13,7 @@ import AdminShowOrders from '../views/AdminShowOrders.vue';
 import AdminEditProducts from '../views/AdminEditProducts.vue';
 import AdminSetFrist from '../views/AdminSetFrist.vue';
 import AdminAddProduct from '../views/AdminAddProduct.vue';
+import AdminChangeProduct from '../views/AdminChangeProduct.vue';
 import Error404 from '../views/Error404.vue';
 
 import { westwien } from '../Store/westwienStore.js';
@@ -122,6 +123,20 @@ const router = createRouter({
       path: '/adminAddProduct',
       name: 'adminAddProduct',
       component: AdminAddProduct,
+      beforeEnter: (to, from, next) => {
+        const store = westwien();
+        if (store.getAktivenUser) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
+    },
+    {
+      path: '/adminChangeProduct/:id',
+      name: 'adminChangeProduct',
+      params: true,
+      component: AdminChangeProduct,
       beforeEnter: (to, from, next) => {
         const store = westwien();
         if (store.getAktivenUser) {

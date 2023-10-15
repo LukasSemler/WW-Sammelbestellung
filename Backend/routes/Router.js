@@ -13,6 +13,7 @@ import {
   login,
   postProductImage,
   postProduct,
+  patchProduct,
 } from '../controllers/ProductsController.js';
 
 const router = express.Router();
@@ -26,6 +27,7 @@ router.get('/products/:id', asyncHandler(getProduct));
 router.delete('/products/:id', asyncHandler(deleteProduct));
 router.post('/productImage', asyncHandler(postProductImage));
 router.post('/products', asyncHandler(postProduct));
+router.patch('/products/:id', asyncHandler(patchProduct));
 
 router.post('/orders', asyncHandler(postOrder));
 router.get('/orders', asyncHandler(getOrders));

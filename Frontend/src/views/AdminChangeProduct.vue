@@ -29,14 +29,15 @@
       </li>
     </ol>
   </nav>
-  <form>
+
+  <form class="mb-8">
     <div class="flex flex-row justify-end mt-8 mr-8">
       <button
-        @click="createProduct"
+        @click="changeProduct"
         type="button"
         class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
       >
-        Erstellen
+        Aendern
       </button>
     </div>
     <div class="flex flex-row">
@@ -353,11 +354,33 @@ import {
   ListboxOptions,
 } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+const pages = [
+  { name: 'Admin-Panel', href: '/admin', current: false },
+  { name: 'Produkte bearbeiten', href: '#', current: true },
+];
+
+onMounted(async () => {
+  try {
+    const { data } = await axios.get(`/products/${router.currentRoute.value.params.id}`);
+    console.log(data);
+
+    state.name = data.name;
+    state.artikelNummer = data.number;
+    state.preis = data.price;
+    selectedCategory.value = categories.find((category) => category.name === data.category);
+    selectedColor.value = colors.find((color) => color.name === data.color);
+    image.value = data.image;
+    state.groessen = data.sizes;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 const colors = [
   { id: 1, name: 'Schwarz', color: 'bg-black' },
@@ -374,13 +397,16 @@ const categories = [
 ];
 
 const sizes = [
-  { id: 1, name: '152' },
-  { id: 2, name: '164' },
-  { id: 3, name: 'S' },
-  { id: 4, name: 'M' },
-  { id: 5, name: 'L' },
-  { id: 6, name: 'XL' },
-  { id: 7, name: 'Keine Groesse' },
+  { id: 1, name: '116' },
+  { id: 2, name: '128' },
+  { id: 3, name: '140' },
+  { id: 4, name: '152' },
+  { id: 5, name: '164' },
+  { id: 6, name: 'S' },
+  { id: 7, name: 'M' },
+  { id: 8, name: 'L' },
+  { id: 9, name: 'XL' },
+  { id: 10, name: 'Keine Groesse' },
 ];
 
 const selectedColor = ref(colors[0]);
@@ -396,11 +422,6 @@ const state = reactive({
   groessen: [],
   imageSchicken: null,
 });
-
-const pages = [
-  { name: 'Admin-Panel', href: '/admin', current: false },
-  { name: 'Neues Produkt erstellen', href: '#', current: true },
-];
 
 //Bild hochladen
 function onFileChanged(event) {
@@ -437,10 +458,16 @@ function onFileChanged(event) {
   }
 }
 
-async function createProduct() {
+async function changeProduct() {
   try {
-    await sendImage();
-    await sendData();
+    if (state.imageSchicken == null) {
+      state.linkImage = image.value;
+      await sendData();
+    } else {
+      await sendImage();
+      state.linkImage = `/images/${state.name}.${state.imageSchicken.datentyp}`;
+      await sendData();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -473,13 +500,9 @@ async function sendImage() {
 //Sendet eingegebenen Daten an den Server, der diese dann in der DB speichert
 async function sendData() {
   try {
-    state.linkImage = `/images/${state.name}.${state.imageSchicken.datentyp}`;
     state.farbe = selectedColor.value.name;
     state.category = selectedCategory.value;
-    let { status } = await axios.post('/products', state);
-    if (status == 210) {
-      throw 'Fehler beim Produkt erstellen, auf der Datenbankseite';
-    }
+    let { status } = await axios.patch(`/products/${router.currentRoute.value.params.id}`, state);
 
     return true;
   } catch (error) {

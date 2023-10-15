@@ -9,6 +9,7 @@ import {
   exportOrdersDB,
   loginDB,
   postProductDB,
+  patchProductDB,
 } from '../models/ProductsModel.js';
 
 import fs from 'fs';
@@ -43,9 +44,6 @@ const postOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   const result = await getOrdersDB();
-
-  const test = convertArrayOfObjectsToCSV(result);
-  console.log(test);
 
   if (result) return res.status(200).json(result);
   return res.status(500).send('Internal Server Error');
@@ -88,7 +86,6 @@ function convertArrayOfObjectsToCSV(data) {
 
 const setFrist = async (req, res) => {
   const { zeitpunkt } = req.body;
-  console.log(zeitpunkt);
 
   const result = await setFristDB(zeitpunkt);
 
@@ -155,7 +152,30 @@ const postProduct = async (req, res) => {
     category,
   );
 
+  if (result) return res.status(200).json(result);
+  return res.status(500).send('Internal Server Error');
+};
+
+const patchProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const { name, artikelNummer, farbe, preis, groessen, linkImage, category } = req.body;
+
   console.log(req.body);
+
+  const result = await patchProductDB(
+    name,
+    artikelNummer,
+    farbe,
+    preis,
+    groessen,
+    linkImage,
+    category,
+    id,
+  );
+
+  if (result) return res.status(200).send('Success');
+  return res.status(500).send('Internal Server Error');
 };
 
 export {
@@ -170,4 +190,5 @@ export {
   login,
   postProductImage,
   postProduct,
+  patchProduct,
 };

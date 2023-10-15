@@ -89,16 +89,12 @@ const postOrderDB = async (order) => {
       return false;
     }
 
-    console.log(rows[0]);
-
     for (const product of order.prods) {
       console.log('prod: ', product);
       const { rows: rows2 } = await db.query(
         'INSERT into "orderDetail" (fk_order, fk_product, anzahl, fk_size) VALUES ($1, $2, $3, (SELECT s_id FROM sizes WHERE name = $4)) returning *; ',
         [rows[0].o_id, product.p_id, product.anzahl, product.actualSize],
       );
-
-      console.log('rows2: ', rows2);
 
       if (!rows2[0]) {
         await db.query('ROLLBACK');
@@ -154,7 +150,6 @@ const deleteProductsDB = async (id) => {
       const { rows: rows2 } = await query('DELETE FROM products where p_id = $1 returning *;', [
         id,
       ]);
-      console.log(rows2[0]);
 
       if (rows2[0]) return true;
     }
@@ -286,12 +281,59 @@ const postProductDB = async (
 
         await db.query('COMMIT');
       }
-
       await db.query('ROLLBACK');
     }
   } catch (error) {
     console.log(error);
     db.query('ROLLBACK');
+  } finally {
+    await db.release();
+  }
+};
+
+const patchProductDB = async (
+  name,
+  artikelNummer,
+  farbe,
+  preis,
+  groessen,
+  imageSchicken,
+  category,
+  id,
+) => {
+  const db = await pool.connect();
+  try {
+    await db.query('BEGIN');
+
+    const { rows } = await query(
+      'UPDATE products SET name = $1, productnumber = $2, color = $3, price = $4, previewimage = $5, "fk_categories_ID" = (SELECT c.c_id from categories c where c.name = $6 ) where p_id = $7 returning *;',
+      [name, artikelNummer, farbe, preis, imageSchicken, category.name, id],
+    );
+
+    if (rows[0]) {
+      //Dann die Groessen loeschen
+      for (const groesse of groessen) {
+        await db.query('DELETE FROM "productsVariation" WHERE "fk_product_ID" = $1 returning *;', [
+          id,
+        ]);
+      }
+
+      //Dann die Groessen neu erstellen
+      for (const groesse of groessen) {
+        await db.query(
+          'INSERT INTO "productsVariation" ("fk_product_ID", "fk_size_ID") VALUES ($1, (SELECT s_id FROM sizes WHERE name = $2)) returning *;',
+          [id, groesse],
+        );
+      }
+      await db.query('COMMIT');
+      return true;
+    }
+    await db.query('ROLLBACK');
+    return false;
+  } catch (error) {
+    console.log(error);
+    db.query('ROLLBACK');
+    return false;
   } finally {
     await db.release();
   }
@@ -308,4 +350,5 @@ export {
   exportOrdersDB,
   loginDB,
   postProductDB,
+  patchProductDB,
 };

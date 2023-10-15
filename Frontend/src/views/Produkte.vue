@@ -355,14 +355,14 @@
                     >
                       <img
                         crossorigin="anonymous"
-                        :src="`http://localhost:2410/${product.image}`"
+                        :src="product.image"
                         :alt="product.name"
                         class="h-full w-full object-cover object-center"
                       />
                     </div>
                     <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
                     <p class="italic text-gray-500">{{ product.category }}</p>
-                    <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
+                    <p class="mt-2 font-medium text-gray-900">{{ product.price }}€</p>
                   </a>
                 </div>
                 <h1 v-else class="text-center text-2xl font-medium text-gray-900">
@@ -451,12 +451,16 @@ const filtersSize = ref([
     id: 'sizes',
     name: 'Sizes',
     options: [
+      { value: '116', label: '116' },
+      { value: '128', label: '128' },
+      { value: '140', label: '140' },
       { value: '152', label: '152' },
       { value: '164', label: '164' },
       { value: 'S', label: 'S' },
       { value: 'M', label: 'M' },
       { value: 'L', label: 'L' },
       { value: 'XL', label: 'XL' },
+      { value: 'Keine Groesse', label: 'Keine Groesse' },
     ],
   },
 ]);

@@ -96,7 +96,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
               <img
-                :src="`http://localhost:2410${product.image}`"
+                :src="product.image"
                 :alt="product.name"
                 class="lg:col-span-2 lg:row-span-2"
               />

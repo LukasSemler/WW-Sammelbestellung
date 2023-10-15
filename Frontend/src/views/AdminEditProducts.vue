@@ -122,6 +122,7 @@
                   class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3"
                 >
                   <button
+                    @click="router.push(`/adminChangeProduct/${product.p_id}`)"
                     type="button"
                     class="inline-flex items-center gap-x-1.5 rounded-md bg-wwGray px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGray focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGray"
                   >

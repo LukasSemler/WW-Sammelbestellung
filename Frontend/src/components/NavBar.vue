@@ -42,7 +42,7 @@
                 >
                   <span class="absolute -inset-1.5" />
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" alt="Profilbild" src="logo4.png" />
+                  <img class="h-8 w-8 rounded-full" alt="Profilbild" src="/logo4.png" />
                 </MenuButton>
               </div>
               <transition
