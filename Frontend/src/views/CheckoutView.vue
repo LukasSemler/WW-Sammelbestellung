@@ -259,8 +259,9 @@ import {
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 import { ref, onMounted, computed, reactive } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-// const router = useRouter();
+const router = useRouter();
 const products = ref([]);
 
 const jahrgang = [
@@ -323,6 +324,8 @@ async function order(e) {
     await axios.post('/orders', state);
 
     localStorage.removeItem('cart');
+
+    router.push('/orderconfirmation');
   } catch (error) {
     console.log(error);
   }

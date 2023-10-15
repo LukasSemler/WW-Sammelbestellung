@@ -360,9 +360,19 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+const state = reactive({
+  name: '',
+  artikelNummer: '',
+  farbe: '',
+  preis: null,
+  groessen: [],
+  imageSchicken: null,
+});
+
 const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
-  { name: 'Produkte bearbeiten', href: '#', current: true },
+  { name: 'Produkte bearbeiten/loeschen', href: '/adminEditProducts', current: false },
+  { name: 'Bearbeiten', href: router.currentRoute, current: true },
 ];
 
 onMounted(async () => {
@@ -413,15 +423,6 @@ const selectedColor = ref(colors[0]);
 const selectedCategory = ref(categories[0]);
 
 let image = ref(null);
-
-const state = reactive({
-  name: '',
-  artikelNummer: '',
-  farbe: '',
-  preis: null,
-  groessen: [],
-  imageSchicken: null,
-});
 
 //Bild hochladen
 function onFileChanged(event) {
