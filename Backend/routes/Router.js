@@ -9,6 +9,7 @@ import {
   deleteProduct,
   setFrist,
   getFrist,
+  exportOrders,
 } from '../controllers/ProductsController.js';
 
 const router = express.Router();
@@ -26,5 +27,7 @@ router.get('/orders', asyncHandler(getOrders));
 
 router.post('/setFrist', asyncHandler(setFrist));
 router.get('/frist', asyncHandler(getFrist));
+
+router.get('/exportOrders', asyncHandler(exportOrders));
 
 export default router;

@@ -55,3 +55,7 @@ GET http://localhost:2410/orders
 
 
 DELETE http://localhost:2410/products/21
+
+######
+
+GET http://localhost:2410/exportOrders

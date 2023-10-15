@@ -6,6 +6,7 @@ import {
   deleteProductsDB,
   setFristDB,
   getFristDB,
+  exportOrdersDB,
 } from '../models/ProductsModel.js';
 
 const getProducts = async (req, res) => {
@@ -95,4 +96,20 @@ const getFrist = async (req, res) => {
   return res.status(500).send('Internal Server Error');
 };
 
-export { getProducts, getProduct, postProduct, getOrders, deleteProduct, setFrist, getFrist };
+const exportOrders = async (req, res) => {
+  const result = await exportOrdersDB();
+
+  if (result) return res.status(200).json(result);
+  return res.status(500).send('Internal Server Error');
+};
+
+export {
+  getProducts,
+  getProduct,
+  postProduct,
+  getOrders,
+  deleteProduct,
+  setFrist,
+  getFrist,
+  exportOrders,
+};

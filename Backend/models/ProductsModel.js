@@ -193,6 +193,51 @@ const getFristDB = async () => {
   return false;
 };
 
+const exportOrdersDB = async () => {
+  const { rows } =
+    await query(`SELECT p.productnumber                                        as Artikelnummer,
+       p.name                                                 as "Bezeichnung Artikel",
+       (SELECT name from sizes where oD.fk_size = sizes.s_id) as "Groesse",
+       oD.anzahl                                              as "Anzahl",
+       p.price
+from "order" o
+         JOIN "orderDetail" oD on o.o_id = oD.fk_order
+         JOIN products p on p.p_id = oD.fk_product`);
+
+  if (rows[0]) {
+    const csv = convertArrayOfObjectsToCSV(rows);
+    console.log(csv);
+    return csv;
+  }
+  return false;
+};
+
+function convertArrayOfObjectsToCSV(data) {
+  // Extract column headers from the first object in the array
+  const headers = Object.keys(data[0]);
+
+  // Create an array to hold the CSV data
+  const csvData = [];
+
+  // Add the header row to the CSV data
+  csvData.push(headers.join(','));
+
+  // Iterate through each object and create a CSV row
+  data.forEach((item) => {
+    const values = headers.map((header) => {
+      // Ensure that each value is properly escaped and quoted if necessary
+      const escapedValue = item[header].toString().replace(/"/g, '""');
+      return `"${escapedValue}"`;
+    });
+    csvData.push(values.join(','));
+  });
+
+  // Join the CSV rows into a single string
+  const csvContent = csvData.join('\n');
+
+  return csvContent;
+}
+
 export {
   getProductsDB,
   getProductDB,
@@ -201,4 +246,5 @@ export {
   deleteProductsDB,
   setFristDB,
   getFristDB,
+  exportOrdersDB,
 };

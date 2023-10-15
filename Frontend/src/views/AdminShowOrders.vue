@@ -40,6 +40,7 @@
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <button
+          @click="exportOrders"
           type="button"
           class="inline-flex items-center gap-x-2 rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
         >
@@ -79,6 +80,9 @@
                   Anzahl
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Groesse
+                </th>
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Product Name
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -100,6 +104,9 @@
                 </td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.anzahl }}
+                </td>
+                <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                  {{ order.size }}
                 </td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.name }}
@@ -141,4 +148,37 @@ onMounted(async () => {
     console.log(error);
   }
 });
+
+async function exportOrders() {
+  const { data: csv } = await axios.get('/exportOrders');
+  console.log(csv);
+
+  downloadCSV(csv, 'orders.csv');
+}
+
+function downloadCSV(data, filename) {
+  // Create a Blob containing the CSV data
+  const blob = new Blob([data], { type: 'text/csv' });
+
+  // Create a temporary URL for the Blob
+  const url = window.URL.createObjectURL(blob);
+
+  // Create a link element to trigger the download
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+
+  // Trigger a click event on the link to start the download
+  link.click();
+
+  // Clean up by revoking the Blob URL
+  window.URL.revokeObjectURL(url);
+}
+
+// Example usage:
+const data = [
+  { name: 'John Doe', age: 30, city: 'New York' },
+  { name: 'Jane Smith', age: 28, city: 'San Francisco' },
+  // Add more objects as needed
+];
 </script>
