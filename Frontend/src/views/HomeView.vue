@@ -98,7 +98,7 @@
       </div>
       <div class="py-12 sm:py-32 lg:pb-20">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <div class="flex flex-row justify-center mb-12"><img src="logo3.png" class="h-72" /></div>
+          <div class="flex flex-row justify-center mb-12"><img src="/logo3.png" class="h-72" /></div>
           <div class="mx-auto max-w-2xl text-center">
             <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               West-Wien Bestellplattform
