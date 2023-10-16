@@ -17,6 +17,7 @@ import path from 'path';
 
 const dirname = path.resolve();
 
+
 const getProducts = async (req, res) => {
   const result = await getProductsDB();
 
@@ -57,32 +58,6 @@ const deleteProduct = async (req, res) => {
   if (result) return res.status(200).send('Product wurde erfolgreich gelöscht');
   return res.status(500).send('Fehler beim Löschen des Products');
 };
-
-function convertArrayOfObjectsToCSV(data) {
-  const array = typeof data !== 'object' ? JSON.parse(data) : data;
-  let csv = '';
-
-  // Extract the column headers
-  const headers = Object.keys(array[0]);
-
-  // Append the column headers to the CSV string
-  csv += headers.join(',') + '\n';
-
-  // Loop through the array of objects
-  for (let i = 0; i < array.length; i++) {
-    let row = [];
-
-    // Loop through the object properties and push them to the row array
-    for (const header of headers) {
-      row.push(array[i][header]);
-    }
-
-    // Join the row array into a CSV string, and append it to the CSV variable
-    csv += row.join(',') + '\n';
-  }
-
-  return csv;
-}
 
 const setFrist = async (req, res) => {
   const { zeitpunkt } = req.body;

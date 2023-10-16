@@ -10,14 +10,14 @@ POST http://localhost:2410/orders
 Content-Type: application/json
 
 {
-  "email": "jane.doe@gmail.com",
+  "email": "lukas.semler@gmail.com",
   "telfonnummer": "+43 660 3914245",
   "vornameEltern": "Jane ",
   "nachnameEltern": "Doe",
   "vornameSpieler": "Lukas ",
   "nachnameSpieler": "Semler",
   "summe": 26.79,
-  "jahrgang": "U12",
+  "jahrgang": "U13",
   "prods": [
     {
       "p_id": 12,

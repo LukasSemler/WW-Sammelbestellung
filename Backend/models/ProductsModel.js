@@ -1,4 +1,8 @@
 import { query, pool } from '../DB/index.js';
+import postmark from 'postmark';
+
+
+const emailClient = new postmark.ServerClient(process.env.postmarkToken);
 
 const getProductsDB = async () => {
   const { rows } = await query(`SELECT
@@ -102,6 +106,35 @@ const postOrderDB = async (order) => {
       }
     }
 
+    const aktuellesDatum = new Date();
+    const datum = `${aktuellesDatum.getDate()}.${aktuellesDatum.getMonth()}.${aktuellesDatum.getFullYear()}`;
+
+    const bestellteProdukte = [];
+    for (const product of order.prods) {
+      bestellteProdukte.push({
+        produktname: product.name,
+        preis: product.price,
+        anzahl: product.anzahl,
+        size: product.actualSize,
+      });
+    }
+
+    //Send Email to CUstomer
+    emailClient.sendEmailWithTemplate({
+      From: 't.ruzek@handball-westwien.at',
+      To: order.email,
+      TemplateAlias: 'orderConfirmation',
+      TemplateModel: {
+        name: `${order.vornameEltern} ${order.nachnameEltern}`,
+        kontonummer: 'AT22 00000000000000',
+        receipt_id: `Bestellnummer: ${rows[0].o_id}`,
+        date: datum,
+        receipt_details: bestellteProdukte,
+        total: order.summe,
+        product_name: 'Handball-Westwien Team',
+      },
+    });
+
     await db.query('COMMIT');
     return true;
   } catch (error) {
@@ -135,7 +168,9 @@ from "order" o
          JOIN "orderDetail" oD on o.o_id = oD.fk_order
          JOIN products p on p.p_id = oD.fk_product`);
 
-  if (rows[0]) return rows;
+  if (rows[0]) {
+    return rows;
+  }
   return false;
 };
 
