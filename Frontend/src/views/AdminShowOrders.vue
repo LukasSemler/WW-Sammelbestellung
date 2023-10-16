@@ -91,7 +91,14 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="(order, idx) in orders" :key="idx" class="divide-x divide-gray-200">
+              <tr
+                v-for="(order, idx) in orders"
+                :key="idx"
+                :class="[
+                  order.o_id % 2 == 0 ? 'bg-gray-100' : 'bg-white',
+                  'divide-x divide-gray-200',
+                ]"
+              >
                 <td class="whitespace-nowrap p-4 text-sm font-bold text-gray-900">
                   {{ order.o_id }}
                 </td>
