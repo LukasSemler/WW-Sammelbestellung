@@ -98,7 +98,9 @@
       </div>
       <div class="py-12 sm:py-32 lg:pb-20">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <div class="flex flex-row justify-center mb-12"><img src="/logo3.png" class="h-72" /></div>
+          <div class="flex flex-row justify-center mb-12">
+            <img src="/logo3.png" class="h-72" />
+          </div>
           <div class="mx-auto max-w-2xl text-center">
             <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               West-Wien Bestellplattform
@@ -109,7 +111,7 @@
             </p>
             <div class="mt-10 flex items-center justify-center gap-x-6">
               <a
-                href="/produkte"
+                @click="router.push('/produkte')"
                 class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
                 >Zu den Produkten</a
               >

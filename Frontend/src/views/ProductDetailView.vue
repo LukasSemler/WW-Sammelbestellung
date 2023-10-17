@@ -84,10 +84,11 @@
       <div class="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div class="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div class="lg:col-span-5 lg:col-start-8">
-            <div class="flex justify-between">
-              <h1 class="text-xl font-medium text-gray-900">{{ product.name }}</h1>
-              <p class="text-xl font-medium text-gray-900">{{ product.price }}€</p>
-            </div>
+            <!-- <div class="flex justify-between">
+            
+            </div> -->
+            <h1 class="text-xl font-medium text-gray-900">{{ product.name }}</h1>
+            <p class="text-xl font-medium text-gray-900">{{ product.price }}€</p>
           </div>
 
           <div class="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
@@ -152,17 +153,6 @@
                 <option value="7">7</option>
                 <option value="8">8</option>
               </select>
-
-              <div class="absolute right-0 top-0">
-                <button
-                  type="button"
-                  @click="removeFromCart(product)"
-                  class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
-                >
-                  <span class="sr-only">Entfernen</span>
-                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
             </div>
 
             <!-- Size picker -->

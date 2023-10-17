@@ -31,7 +31,7 @@
                 <button
                   type="button"
                   @click="showSuccess = false"
-                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2"
                 >
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-5 w-5" aria-hidden="true" />
@@ -59,7 +59,7 @@
         leave-to-class="opacity-0"
       >
         <div
-          v-if="showError"
+          v-if="showErrors"
           class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
         >
           <div class="p-4">
@@ -76,8 +76,8 @@
               <div class="ml-4 flex flex-shrink-0">
                 <button
                   type="button"
-                  @click="showError = false"
-                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  @click="showErrors = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2"
                 >
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-5 w-5" aria-hidden="true" />
@@ -121,7 +121,7 @@
                 <button
                   type="button"
                   @click="showValidate = false"
-                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2"
                 >
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-5 w-5" aria-hidden="true" />
@@ -542,7 +542,12 @@ const sizes = [
   { id: 7, name: 'M' },
   { id: 8, name: 'L' },
   { id: 9, name: 'XL' },
-  { id: 10, name: 'Keine Größe' },
+  { id: 10, name: 'XXL' },
+  { id: 11, name: '31-35' },
+  { id: 12, name: '36-40' },
+  { id: 13, name: '41-45' },
+  { id: 14, name: '46-50' },
+  { id: 15, name: 'Keine Größe' },
 ];
 
 const pages = [

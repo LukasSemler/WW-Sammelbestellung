@@ -41,6 +41,184 @@
       </div>
     </div>
 
+    <!-- --------------------------------------------------------------------------------- -->
+
+    <div class="bg-white mt-8">
+      <div class="px-4 text-center sm:px-6 lg:px-8 mt-12">
+        <section aria-labelledby="filter-heading" class="border-t border-gray-200 py-6">
+          <div class="flex items-center justify-between">
+            <button
+              type="button"
+              class="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
+              @click="open = true"
+            >
+              Filters
+            </button>
+
+            <div class="flex flex-row justify-start">
+              <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8 ml-8">
+                <Popover as="div" id="`desktop-menu-0`" class="relative inline-block text-left">
+                  <div>
+                    <PopoverButton
+                      class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                    >
+                      <span>Farbe</span>
+
+                      <ChevronDownIcon
+                        class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                    </PopoverButton>
+                  </div>
+
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                  >
+                    <PopoverPanel
+                      class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    >
+                      <form class="space-y-4">
+                        <div
+                          v-for="(option, optionIdx) in filters[0].options"
+                          :key="option.value"
+                          class="flex items-center"
+                        >
+                          <input
+                            v-model="selectedColor"
+                            :id="`filter-0-${optionIdx}`"
+                            :name="`0[]`"
+                            :value="option.value"
+                            type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwGreen"
+                          />
+                          <label
+                            :for="`filter-0-${optionIdx}`"
+                            class="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+                            >{{ option.label }}</label
+                          >
+                        </div>
+                      </form>
+                    </PopoverPanel>
+                  </transition>
+                </Popover>
+              </PopoverGroup>
+
+              <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8 ml-8">
+                <Popover as="div" id="`desktop-menu-1`" class="relative inline-block text-left">
+                  <div>
+                    <PopoverButton
+                      class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                    >
+                      <span>Kategorie</span>
+
+                      <ChevronDownIcon
+                        class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                    </PopoverButton>
+                  </div>
+
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                  >
+                    <PopoverPanel
+                      class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    >
+                      <form class="space-y-4">
+                        <div
+                          v-for="(option, optionIdx) in filters[1].options"
+                          :key="option.value"
+                          class="flex items-center"
+                        >
+                          <input
+                            v-model="selectedCategory"
+                            :id="`filter-1-${optionIdx}`"
+                            :name="`1[]`"
+                            :value="option.value"
+                            type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwGreen"
+                          />
+                          <label
+                            :for="`filter-1-${optionIdx}`"
+                            class="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+                            >{{ option.label }}</label
+                          >
+                        </div>
+                      </form>
+                    </PopoverPanel>
+                  </transition>
+                </Popover>
+              </PopoverGroup>
+
+              <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8 ml-8">
+                <Popover as="div" id="`desktop-menu-1`" class="relative inline-block text-left">
+                  <div>
+                    <PopoverButton
+                      class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                    >
+                      <span>Größen</span>
+
+                      <ChevronDownIcon
+                        class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                    </PopoverButton>
+                  </div>
+
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                  >
+                    <PopoverPanel
+                      class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    >
+                      <form class="space-y-4">
+                        <div
+                          v-for="(option, optionIdx) in filters[2].options"
+                          :key="option.value"
+                          class="flex items-center"
+                        >
+                          <input
+                            v-model="selectedSize"
+                            :id="`filter-2-${optionIdx}`"
+                            :name="`2[]`"
+                            :value="option.value"
+                            type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-wwGreen focus:ring-wwGreen"
+                          />
+                          <label
+                            :for="`filter-2-${optionIdx}`"
+                            class="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+                            >{{ option.label }}</label
+                          >
+                        </div>
+                      </form>
+                    </PopoverPanel>
+                  </transition>
+                </Popover>
+              </PopoverGroup>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------------------- -->
+
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -78,7 +256,7 @@
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
               <tr
-                v-for="(product, i) in products"
+                v-for="(product, i) in filteredProducts"
                 :key="i"
                 class="divide-x divide-gray-200 even:bg-gray-50"
               >
@@ -142,13 +320,64 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { HomeIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 
 const router = useRouter();
 const products = ref([]);
+
+const filters = [
+  {
+    id: 'Farbe',
+    name: 'Farbe',
+    options: [
+      { value: 'Weiß', label: 'Weiß' },
+      { value: 'Schwarz', label: 'Schwarz' },
+      { value: 'Grün', label: 'Grün' },
+      { value: 'Grau', label: 'Grau' },
+    ],
+  },
+  {
+    id: 'Kategorie',
+    name: 'Kategorie',
+    options: [
+      { value: 'Casual', label: 'Casual' },
+      { value: 'Player', label: 'Player' },
+      { value: 'Fans', label: 'Fans' },
+    ],
+  },
+  {
+    id: 'Größen',
+    name: 'Größen',
+    options: [
+      { value: '116', label: '116' },
+      { value: '128', label: '128' },
+      { value: '140', label: '140' },
+      { value: '152', label: '152' },
+      { value: '164', label: '164' },
+      { value: 'S', label: 'S' },
+      { value: 'M', label: 'M' },
+      { value: 'L', label: 'L' },
+      { value: 'XL', label: 'XL' },
+      { value: 'XXL', label: 'XXL' },
+      { value: '31-35', label: '31-35' },
+      { value: '36-40', label: '36-40' },
+      { value: '41-45', label: '41-45' },
+      { value: '46-50', label: '46-50' },
+      { value: 'Keine Größe', label: 'Keine Größe' },
+    ],
+  },
+];
+
+const open = ref([false]);
+
+let selectedColor = ref([]);
+let selectedCategory = ref([]);
+let selectedSize = ref([]);
 
 const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
@@ -170,4 +399,22 @@ async function deleteProduct(product) {
     console.log(error);
   }
 }
+
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    // Check if the product matches the selected filters
+    const matchesColor =
+      selectedColor.value.includes(product.color) || selectedColor.value.length === 0;
+    const matchesCategory =
+      selectedCategory.value.includes(product.category) || selectedCategory.value.length === 0;
+
+    // Check if at least one selected size is included in the product's array of sizes
+    const matchesSize =
+      selectedSize.value.length === 0 ||
+      selectedSize.value.some((selected) => product.sizes.includes(selected));
+
+    // Return true for products that match all selected filters
+    return matchesColor && matchesSize && matchesCategory;
+  });
+});
 </script>
