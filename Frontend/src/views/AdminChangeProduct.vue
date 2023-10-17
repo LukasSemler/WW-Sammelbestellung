@@ -1,4 +1,96 @@
 <template>
+  <!-- Global notification live region, render this permanently at the end of the document -->
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showSuccess"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <CheckCircleIcon class="h-6 w-6 text-green-400" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Erfolgreich!</p>
+                <p class="mt-1 text-sm text-gray-500">Das Produkt wurde erfolgreich geändert</p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showSuccess = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <!-- Global notification live region, render this permanently at the end of the document -->
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showError"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <XMarkIcon class="h-6 w-6 text-wwRed" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Fehler!</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Leider ist ein Fehler aufgetreten. Bitte probiere es nochmal
+                </p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showError = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
   <nav class="flex" aria-label="Breadcrumb">
     <ol role="list" class="flex items-center space-x-4 px-4 sm:px-6 lg:px-8 mt-5">
       <li>
@@ -37,7 +129,7 @@
         type="button"
         class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
       >
-        Aendern
+        Ändern
       </button>
     </div>
     <div class="flex flex-row">
@@ -70,7 +162,7 @@
                     for="thumbnail"
                     class="relative cursor-pointer bg-white rounded-md font-medium text-wwGreen hover:text-wwDarkGreen focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-wwGreen"
                   >
-                    <span class="text-center text-wwGreen">Upload a file</span>
+                    <span class="text-center text-wwGreen">Bild hochladen</span>
                     <input
                       id="thumbnail"
                       name="thumbnail"
@@ -345,7 +437,7 @@
 </template>
 
 <script setup>
-import { TrashIcon, HomeIcon } from '@heroicons/vue/24/outline';
+import { TrashIcon, HomeIcon, CheckCircleIcon } from '@heroicons/vue/24/outline';
 import {
   Listbox,
   ListboxButton,
@@ -353,10 +445,13 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+
+const showSuccess = ref(false);
+const showError = ref(false);
 
 const router = useRouter();
 
@@ -371,11 +466,15 @@ const state = reactive({
 
 const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
-  { name: 'Produkte bearbeiten/loeschen', href: '/adminEditProducts', current: false },
+  { name: 'Produkte bearbeiten/löschen', href: '/adminEditProducts', current: false },
   { name: 'Bearbeiten', href: router.currentRoute, current: true },
 ];
 
 onMounted(async () => {
+  await getData();
+});
+
+async function getData() {
   try {
     const { data } = await axios.get(`/products/${router.currentRoute.value.params.id}`);
     console.log(data);
@@ -389,8 +488,11 @@ onMounted(async () => {
     state.groessen = data.sizes;
   } catch (error) {
     console.log(error);
+    showError.value = true;
+
+    setTimeout(() => (showError.value = false), 3000);
   }
-});
+}
 
 const colors = [
   { id: 1, name: 'Schwarz', color: 'bg-black' },
@@ -416,7 +518,7 @@ const sizes = [
   { id: 7, name: 'M' },
   { id: 8, name: 'L' },
   { id: 9, name: 'XL' },
-  { id: 10, name: 'Keine Groesse' },
+  { id: 10, name: 'Keine Größe' },
 ];
 
 const selectedColor = ref(colors[0]);
@@ -469,8 +571,16 @@ async function changeProduct() {
       state.linkImage = `/images/${state.name}.${state.imageSchicken.datentyp}`;
       await sendData();
     }
+
+    showSuccess.value = true;
+    await getData();
+
+    setTimeout(() => (showSuccess.value = false), 3000);
   } catch (error) {
     console.log(error);
+    showError.value = true;
+
+    setTimeout(() => (showError.value = false), 3000);
   }
 }
 
@@ -493,6 +603,9 @@ async function sendImage() {
     return true;
   } catch (error) {
     console.log(error.message);
+    showError.value = true;
+
+    setTimeout(() => (showError.value = false), 3000);
 
     return false;
   }
@@ -508,6 +621,9 @@ async function sendData() {
     return true;
   } catch (error) {
     console.log(error);
+    showError.value = true;
+
+    setTimeout(() => (showError.value = false), 3000);
   }
 }
 </script>

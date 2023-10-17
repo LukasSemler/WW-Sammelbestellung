@@ -70,9 +70,9 @@
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Name Spieler
                 </th>
-                <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <!-- <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   E-Mail
-                </th>
+                </th> -->
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Produkt Number
                 </th>
@@ -87,6 +87,9 @@
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Bild
+                </th>
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Bezahlt
                 </th>
               </tr>
             </thead>
@@ -105,7 +108,7 @@
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.sum }}</td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.eltern }}</td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.spieler }}</td>
-                <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.email }}</td>
+                <!-- <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.email }}</td> -->
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.productnumber }}
                 </td>
@@ -121,6 +124,27 @@
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   <img :src="order.previewimage" :alt="order.name" class="h-20" />
                 </td>
+                <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                  <button
+                    @click="setOffen(order)"
+                    v-if="order.bezahlt"
+                    type="button"
+                    class="inline-flex items-center gap-x-2 rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
+                  >
+                    <CheckCircleIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
+                    Bezahlt
+                  </button>
+
+                  <button
+                    v-else
+                    @click="setBezahlt(order)"
+                    type="button"
+                    class="inline-flex items-center gap-x-2 rounded-md bg-wwRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwRed"
+                  >
+                    <XCircleIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
+                    Offen
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -134,7 +158,12 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { HomeIcon, ArrowUpOnSquareIcon } from '@heroicons/vue/24/outline';
+import {
+  HomeIcon,
+  ArrowUpOnSquareIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+} from '@heroicons/vue/24/outline';
 
 const orders = ref([]);
 const router = useRouter();
@@ -146,13 +175,21 @@ const pages = [
 
 onMounted(async () => {
   try {
+    await getData();
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+async function getData() {
+  try {
     const { data } = await axios.get('/orders');
 
     orders.value = data;
   } catch (error) {
     console.log(error);
   }
-});
+}
 
 async function exportOrders() {
   const { data: csv } = await axios.get('/exportOrders');
@@ -177,5 +214,25 @@ function downloadCSV(data, filename) {
 
   // Clean up by revoking the Blob URL
   window.URL.revokeObjectURL(url);
+}
+
+async function setBezahlt(order) {
+  try {
+    await axios.patch(`/setBezahlt/${order.o_id}`, { o_id: true });
+
+    getData();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function setOffen(order) {
+  try {
+    await axios.patch(`/setOffen/${order.o_id}`, { o_id: false });
+
+    getData();
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>

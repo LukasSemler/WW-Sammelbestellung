@@ -39,15 +39,6 @@
           dementsprechene Icon bei dem Produkt.
         </p>
       </div>
-      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button
-          type="button"
-          class="inline-flex items-center gap-x-2 rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-wwDarkGreen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wwGreen"
-        >
-          <ArrowDownTrayIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
-          Herunterladen
-        </button>
-      </div>
     </div>
 
     <div class="mt-8 flow-root">
@@ -96,11 +87,11 @@
                 >
                   <img :src="product.image" :alt="product.name" class="w-32" />
                 </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 truncate">
                   {{ product.name }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ product.price }}
+                  {{ product.price }}€
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   {{ product.color }}
@@ -152,7 +143,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { ArrowDownTrayIcon, HomeIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 

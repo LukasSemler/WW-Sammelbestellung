@@ -23,7 +23,6 @@
         >
           <div class="flex-1 truncate px-4 py-2 text-sm">
             <a class="font-medium text-gray-900 hover:text-gray-600">{{ action.name }}</a>
-            <p class="text-gray-500">{{ action.members }} Members</p>
           </div>
           <div class="flex-shrink-0 pr-2">
             <button
@@ -56,28 +55,24 @@ const actions = [
   {
     name: 'Neues Produkt erstellen',
     icon: PlusIcon,
-    members: 16,
     bgColor: 'bg-wwGray',
     path: '/adminAddProduct',
   },
   {
     name: 'Vorhandenes Produkt anpassen',
     icon: WrenchIcon,
-    members: 12,
     bgColor: 'bg-wwGray',
     path: '/adminEditProducts',
   },
   {
     name: 'Bestellungen ansehen',
     icon: EyeIcon,
-    members: 8,
     bgColor: 'bg-wwGray',
     path: '/adminShowOrders',
   },
   {
     name: 'Bestellfrist aendern',
     icon: WrenchIcon,
-    members: 8,
     bgColor: 'bg-wwGray',
     path: '/adminSetFrist',
   },

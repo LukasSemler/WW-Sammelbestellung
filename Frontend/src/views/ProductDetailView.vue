@@ -58,7 +58,7 @@
                 <p class="text-sm font-medium text-gray-900">Erfolgreich hinzugefuegt</p>
                 <p class="mt-1 text-sm text-gray-500">
                   Sie haben das Product
-                  <span class="text-wwRed">{{ product.name }} </span> erfolgreich zu Ihrem
+                  <span class="font-bold">{{ product.name }} </span> erfolgreich zu Ihrem
                   Einkaufswagen hinzugefuegt
                 </p>
               </div>
@@ -90,57 +90,49 @@
             </div>
           </div>
 
-          <!-- Image gallery -->
           <div class="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
             <h2 class="sr-only">Images</h2>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-              <img
-                :src="product.image"
-                :alt="product.name"
-                class="lg:col-span-2 lg:row-span-2"
-              />
+              <img :src="product.image" :alt="product.name" class="lg:col-span-2 lg:row-span-2" />
             </div>
           </div>
 
           <div class="mt-8 lg:col-span-5">
             <!-- Color picker -->
-            <div>
-              <h2 class="text-md font-medium text-wwRed">TODO Color:</h2>
-              <p class="text-sm text-gray-900">{{ product.color }}</p>
-
-              <!-- <RadioGroup v-model="selectedColor" class="mt-2">
-                  <RadioGroupLabel class="sr-only">Choose a color</RadioGroupLabel>
-                  <div class="flex items-center space-x-3">
-                    <RadioGroupOption
-                      as="template"
-                      v-for="color in product.colors"
-                      :key="color.name"
-                      :value="color"
-                      v-slot="{ active, checked }"
+            <div v-if="colors.length > 0">
+              <RadioGroup v-model="selectedColor">
+                <RadioGroupLabel class="block text-sm font-medium leading-6 text-gray-900"
+                  >Farbe</RadioGroupLabel
+                >
+                <div class="mt-4 flex items-center space-x-3">
+                  <RadioGroupOption
+                    as="template"
+                    v-for="color in colors"
+                    :key="color.name"
+                    :value="color"
+                    v-slot="{ active, checked }"
+                  >
+                    <div
+                      :class="[
+                        color.selectedColor,
+                        active && checked ? 'ring ring-offset-1' : '',
+                        !active && checked ? 'ring-2' : '',
+                        'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none',
+                      ]"
                     >
-                      <div
+                      <RadioGroupLabel as="span" class="sr-only">{{ color.name }}</RadioGroupLabel>
+                      <span
+                        aria-hidden="true"
                         :class="[
-                          color.selectedColor,
-                          active && checked ? 'ring ring-offset-1' : '',
-                          !active && checked ? 'ring-2' : '',
-                          'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none',
+                          color.bgColor,
+                          'h-8 w-8 rounded-full border border-black border-opacity-10',
                         ]"
-                      >
-                        <RadioGroupLabel as="span" class="sr-only">{{
-                          color.name
-                        }}</RadioGroupLabel>
-                        <span
-                          aria-hidden="true"
-                          :class="[
-                            color.bgColor,
-                            'h-8 w-8 rounded-full border border-black border-opacity-10',
-                          ]"
-                        />
-                      </div>
-                    </RadioGroupOption>
-                  </div>
-                </RadioGroup> -->
+                      />
+                    </div>
+                  </RadioGroupOption>
+                </div>
+              </RadioGroup>
             </div>
 
             <div class="mt-8">
@@ -174,7 +166,7 @@
             </div>
 
             <!-- Size picker -->
-            <div class="mt-8">
+            <div class="mt-8" v-if="!product.sizes.includes('Keine Größe')">
               <RadioGroup v-model="selectedSize" class="mt-2">
                 <RadioGroupLabel class="text-gray-900">Groessen:</RadioGroupLabel>
                 <div class="grid grid-cols-3 gap-3 sm:grid-cols-6 mt-3">
@@ -233,7 +225,6 @@ import axios from 'axios';
 import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
-const store = westwien();
 
 let anzahl = ref('1');
 const product = ref({
@@ -244,16 +235,26 @@ const product = ref({
   href: '#',
   image: '',
   colors: [{ name: 'Black', bgColor: 'bg-gray-900', selectedColor: 'ring-gray-900' }],
-  sizes: ['152', '164', 'S', 'M', 'L', 'XL'],
+  sizes: [''],
   description: `
     <p>The Basic tee is an honest new take on a classic. The tee uses super soft, pre-shrunk cotton for true comfort and a dependable fit. They are hand cut and sewn locally, with a special dye technique that gives each tee it's own look.</p>
     <p>Looking to stock your closet? The Basic tee also comes in a 3-pack or 5-pack at a bundle discount.</p>
   `,
+  color: 'Schwarz',
 });
+
+const colors = ref([
+  { name: 'Schwarz', bgColor: 'bg-gray-900', selectedColor: 'ring-wwGray' },
+  { name: 'Weiß', bgColor: 'bg-white-100', selectedColor: 'ring-wwGray' },
+  { name: 'Grün', bgColor: 'bg-wwGreen', selectedColor: 'ring-wwGray' },
+  { name: 'Grau', bgColor: 'bg-wwLightGray', selectedColor: 'ring-wwGray' },
+]);
+
+const selectedColor = ref(colors.value[0]);
 
 const currentProduct = computed(() => {
   const name = product.value.name;
-  name.replace('"', '');
+  name.replace('"', ' ');
   return product.value.name;
 });
 
@@ -268,6 +269,9 @@ onMounted(async () => {
   const { data } = await axios.get(`/products/${router.currentRoute.value.params.id}`);
   console.log(data);
   product.value = data;
+  selectedSize.value = product.value.sizes[0];
+
+  colors.value = colors.value.filter((color) => color.name === product.value.color);
 });
 
 // const selectedColor = ref(product.colors[0]);

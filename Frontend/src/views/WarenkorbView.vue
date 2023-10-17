@@ -103,28 +103,4 @@ function changeAnzahl(product) {
   localStorage.removeItem('cart');
   localStorage.setItem('cart', JSON.stringify(products.value));
 }
-
-// const products = [
-//   {
-//     id: 1,
-//     name: 'Kempa Team T-Shirt Schwarz',
-//     href: '#',
-//     price: '15.09€',
-//     availability: 'Casual',
-//     imageSrc: 'Tshirt1.jpeg',
-//     imageAlt: 'White fabric pouch with white zipper, black zipper pull, and black elastic loop.',
-//     color: 'Schwarz',
-//   },
-//   {
-//     id: 2,
-//     name: 'Kempa Core 26 Shirt',
-//     href: '#',
-//     price: '23.49€',
-//     availability: 'Player',
-//     imageSrc: 'T-Shirt2.jpeg',
-//     color: 'Grün',
-//     imageAlt:
-//       'Front of tote bag with Player canvas body, black straps, and tan leather handles and accents.',
-//   },
-// ];
 </script>

@@ -1,4 +1,139 @@
 <template>
+  <!-- Global notification live region, render this permanently at the end of the document -->
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showSuccess"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <CheckCircleIcon class="h-6 w-6 text-green-400" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Erfolgreich!</p>
+                <p class="mt-1 text-sm text-gray-500">Das Produkt wurde erfolgreich geändert</p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showSuccess = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showError"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <XCircleIcon class="h-6 w-6 text-wwRed" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Fehler!</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Leider ist ein Fehler aufgetreten, bitte probiere es nochmal
+                </p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showError = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showValidate"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <XCircleIcon class="h-6 w-6 text-wwRed" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Fehler!</p>
+                <p class="mt-1 text-sm text-gray-500">Bitte fuelle alle Felder aus!</p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showValidate = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
   <nav class="flex" aria-label="Breadcrumb">
     <ol role="list" class="flex items-center space-x-4 px-4 sm:px-6 lg:px-8 mt-5">
       <li>
@@ -93,6 +228,9 @@
                 </div>
               </div>
             </div>
+            <p v-if="v$.imageSchicken.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
+              {{ v$.imageSchicken.$silentErrors[0].$message }}
+            </p>
             <div v-if="image" class="flex justify-center">
               <button
                 @click="image = null"
@@ -121,6 +259,9 @@
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
               />
             </div>
+            <p v-if="v$.name.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
+              {{ v$.name.$silentErrors[0].$message }}
+            </p>
           </div>
 
           <div class="col-span-full">
@@ -135,6 +276,13 @@
                 id="nummer"
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
               />
+              <p
+                v-if="v$.artikelNummer.$invalid"
+                class="mt-2 text-sm text-red-600"
+                id="email-error"
+              >
+                {{ v$.artikelNummer.$silentErrors[0].$message }}
+              </p>
             </div>
           </div>
 
@@ -307,11 +455,17 @@
                 <span class="text-gray-500 sm:text-sm" id="price-currency">EUR</span>
               </div>
             </div>
+            <p v-if="v$.preis.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
+              {{ v$.preis.$silentErrors[0].$message }}
+            </p>
           </div>
 
           <div class="sm:col-span-4">
             <fieldset>
               <legend class="text-base font-semibold leading-6 text-gray-900">Groessen</legend>
+              <p v-if="v$.groessen.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
+                {{ v$.groessen.$silentErrors[0].$message }}
+              </p>
               <div class="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
                 <div
                   v-for="(size, sizeIdx) in sizes"
@@ -344,7 +498,7 @@
 </template>
 
 <script setup>
-import { TrashIcon, HomeIcon } from '@heroicons/vue/24/outline';
+import { TrashIcon, HomeIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import {
   Listbox,
   ListboxButton,
@@ -352,12 +506,19 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
-import { ref, reactive } from 'vue';
+import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/vue/20/solid';
+import { ref, reactive, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+// Vuelidate
+import useValidate from '@vuelidate/core';
+import { required, numeric } from '@vuelidate/validators';
+
 const router = useRouter();
+let showSuccess = ref(false);
+let showErrors = ref(false);
+let showValidate = ref(false);
 
 const colors = [
   { id: 1, name: 'Schwarz', color: 'bg-black' },
@@ -366,21 +527,27 @@ const colors = [
   { id: 4, name: 'Weiss', color: 'bg-white' },
   { id: 5, name: 'Keine Farbe', color: 'none' },
 ];
-
 const categories = [
   { id: 1, name: 'Casual' },
   { id: 2, name: 'Player' },
   { id: 3, name: 'Fan' },
 ];
-
 const sizes = [
-  { id: 1, name: '152' },
-  { id: 2, name: '164' },
-  { id: 3, name: 'S' },
-  { id: 4, name: 'M' },
-  { id: 5, name: 'L' },
-  { id: 6, name: 'XL' },
-  { id: 7, name: 'Keine Groesse' },
+  { id: 1, name: '116' },
+  { id: 2, name: '128' },
+  { id: 3, name: '140' },
+  { id: 4, name: '152' },
+  { id: 5, name: '164' },
+  { id: 6, name: 'S' },
+  { id: 7, name: 'M' },
+  { id: 8, name: 'L' },
+  { id: 9, name: 'XL' },
+  { id: 10, name: 'Keine Größe' },
+];
+
+const pages = [
+  { name: 'Admin-Panel', href: '/admin', current: false },
+  { name: 'Neues Produkt erstellen', href: '#', current: true },
 ];
 
 const selectedColor = ref(colors[0]);
@@ -397,10 +564,18 @@ const state = reactive({
   imageSchicken: null,
 });
 
-const pages = [
-  { name: 'Admin-Panel', href: '/admin', current: false },
-  { name: 'Neues Produkt erstellen', href: '#', current: true },
-];
+// Rules for vuelidate
+const rules = computed(() => {
+  return {
+    name: { required },
+    artikelNummer: { required },
+    preis: { required, numeric },
+    groessen: { required },
+    imageSchicken: { required },
+  };
+});
+
+const v$ = useValidate(rules, state);
 
 //Bild hochladen
 function onFileChanged(event) {
@@ -438,11 +613,42 @@ function onFileChanged(event) {
 }
 
 async function createProduct() {
-  try {
-    await sendImage();
-    await sendData();
-  } catch (error) {
-    console.log(error);
+  v$.value.$validate();
+  if (!v$.value.$error) {
+    try {
+      await sendImage();
+      await sendData();
+
+      showSuccess.value = true;
+      selectedColor.value = colors[0];
+      selectedCategory.value = categories[0];
+
+      image.value = null;
+
+      state.name = '';
+      state.artikelNummer = '';
+      state.farbe = '';
+      state.preis = null;
+      state.groessen = [];
+      state.imageSchicken = null;
+
+      setTimeout(() => {
+        showSuccess.value = false;
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+      showErrors.value = true;
+
+      setTimeout(() => {
+        showErrors.value = false;
+      }, 3000);
+    }
+  } else {
+    showValidate.value = true;
+
+    setTimeout(() => {
+      showValidate.value = false;
+    }, 3000);
   }
 }
 

@@ -5,7 +5,8 @@
       v-if="
         router.currentRoute.value.path != '/login' &&
         router.currentRoute.value.path != '/register' &&
-        router.currentRoute.value.path != '/'
+        router.currentRoute.value.path != '/' &&
+        router.currentRoute.value.path != '/checkout'
       "
     >
       <div class="flex h-20 items-center justify-between">

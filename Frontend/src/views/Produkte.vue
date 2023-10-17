@@ -426,7 +426,7 @@ const filtersColor = ref([
     id: 'color',
     name: 'Color',
     options: [
-      { value: 'Weiss', label: 'Weiss' },
+      { value: 'Weiß', label: 'Weiß' },
       { value: 'Schwarz', label: 'Schwarz' },
       { value: 'Grün', label: 'Grün' },
       { value: 'Grau', label: 'Grau' },
@@ -439,9 +439,9 @@ const filtersCategory = ref([
     id: 'category',
     name: 'Category',
     options: [
-      { value: 'casual', label: 'Casual' },
-      { value: 'player', label: 'Player' },
-      { value: 'fan', label: 'Fans' },
+      { value: 'Casual', label: 'Casual' },
+      { value: 'Player', label: 'Player' },
+      { value: 'Fan', label: 'Fans' },
     ],
   },
 ]);
@@ -460,7 +460,7 @@ const filtersSize = ref([
       { value: 'M', label: 'M' },
       { value: 'L', label: 'L' },
       { value: 'XL', label: 'XL' },
-      { value: 'Keine Groesse', label: 'Keine Groesse' },
+      { value: 'Keine Größe', label: 'Keine Größe' },
     ],
   },
 ]);

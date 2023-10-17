@@ -1,7 +1,52 @@
 <template>
-  <div class="bg-white">
+  <!-- Global notification live region, render this permanently at the end of the document -->
+  <div
+    aria-live="assertive"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-40"
+  >
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+      <transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showError"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <XCircleIcon class="h-6 w-6 text-wwRed" aria-hidden="true" />
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p class="text-sm font-medium text-gray-900">Fehler!</p>
+                <p class="mt-1 text-sm text-gray-500">Bitte fuelle alle Felder aus!</p>
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  @click="showError = false"
+                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <div>
     <!-- Background color split screen for large screens -->
-    <div class="fixed left-0 top-0 hidden h-full w-1/2 bg-white lg:block" aria-hidden="true" />
+    <div class="fixed left-0 top-0 hidden h-full w-1/2 lg:block" aria-hidden="true" />
     <div
       class="fixed right-0 top-0 hidden h-full w-1/2 bg-wwDarkGreen lg:block"
       aria-hidden="true"
@@ -80,6 +125,9 @@
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                     v-model="state.email"
                   />
+                  <p v-if="v$.email.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
+                    {{ v$.email.$silentErrors[0].$message }}
+                  </p>
                 </div>
 
                 <label for="email-address" class="block text-sm font-medium text-gray-700 mt-6"
@@ -94,6 +142,13 @@
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                     v-model="state.telfonnummer"
                   />
+                  <p
+                    v-if="v$.telfonnummer.$invalid"
+                    class="mt-2 text-sm text-red-600"
+                    id="email-error"
+                  >
+                    {{ v$.telfonnummer.$silentErrors[0].$message }}
+                  </p>
                 </div>
 
                 <div class="mt-6 grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4">
@@ -109,6 +164,13 @@
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                         v-model="state.vornameEltern"
                       />
+                      <p
+                        v-if="v$.vornameEltern.$invalid"
+                        class="mt-2 text-sm text-red-600"
+                        id="email-error"
+                      >
+                        {{ v$.vornameEltern.$silentErrors[0].$message }}
+                      </p>
                     </div>
                   </div>
 
@@ -124,6 +186,13 @@
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                         v-model="state.nachnameEltern"
                       />
+                      <p
+                        v-if="v$.nachnameEltern.$invalid"
+                        class="mt-2 text-sm text-red-600"
+                        id="email-error"
+                      >
+                        {{ v$.nachnameEltern.$silentErrors[0].$message }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -149,6 +218,13 @@
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                         v-model="state.vornameSpieler"
                       />
+                      <p
+                        v-if="v$.vornameSpieler.$invalid"
+                        class="mt-2 text-sm text-red-600"
+                        id="email-error"
+                      >
+                        {{ v$.vornameSpieler.$silentErrors[0].$message }}
+                      </p>
                     </div>
                   </div>
 
@@ -164,6 +240,13 @@
                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-wwGreen focus:ring-wwGreen sm:text-sm"
                         v-model="state.nachnameSpieler"
                       />
+                      <p
+                        v-if="v$.nachnameSpieler.$invalid"
+                        class="mt-2 text-sm text-red-600"
+                        id="email-error"
+                      >
+                        {{ v$.nachnameSpieler.$silentErrors[0].$message }}
+                      </p>
                     </div>
                   </div>
 
@@ -235,6 +318,12 @@
 
             <div class="mt-10 flex justify-end border-t border-gray-200 pt-6">
               <button
+                @click="router.push('/warenkorb')"
+                class="mr-3 rounded-md border border-transparent bg-wwGray px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-wwDarkGray focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
+              >
+                Abbrechen
+              </button>
+              <button
                 @click="order"
                 class="rounded-md border border-transparent bg-wwGreen px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
               >
@@ -256,13 +345,19 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { CheckIcon, ChevronUpDownIcon, XCircleIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { ref, onMounted, computed, reactive } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+// Vuelidate
+import useValidate from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline';
+
 const router = useRouter();
 const products = ref([]);
+let showError = ref(false);
 
 const jahrgang = [
   { id: 1, name: 'Wild minis' },
@@ -279,6 +374,19 @@ const jahrgang = [
 ];
 
 const selected = ref(jahrgang[3]);
+
+// Rules for vuelidate
+const rules = computed(() => {
+  return {
+    email: { required, email },
+    telfonnummer: { required },
+    vornameEltern: { required },
+    nachnameEltern: { required },
+    vornameSpieler: { required },
+    nachnameSpieler: { required },
+  };
+});
+
 const state = reactive({
   email: '',
   telfonnummer: '',
@@ -290,6 +398,8 @@ const state = reactive({
   prods: [],
   jahrgang: '',
 });
+
+const v$ = useValidate(rules, state);
 
 onMounted(() => {
   try {
@@ -316,18 +426,28 @@ const getTotalSum = computed(() => {
 async function order(e) {
   e.preventDefault();
 
-  try {
-    state.summe = getTotalSum.value;
-    state.prods = products.value;
-    state.jahrgang = selected.value.name;
+  v$.value.$validate();
 
-    await axios.post('/orders', state);
+  if (!v$.value.$error) {
+    try {
+      state.summe = getTotalSum.value;
+      state.prods = products.value;
+      state.jahrgang = selected.value.name;
 
-    localStorage.removeItem('cart');
+      await axios.post('/orders', state);
 
-    router.push('/orderconfirmation');
-  } catch (error) {
-    console.log(error);
+      localStorage.removeItem('cart');
+
+      router.push('/orderconfirmation');
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    showError.value = true;
+
+    setTimeout(() => {
+      showError.value = false;
+    }, 3000);
   }
 }
 </script>
