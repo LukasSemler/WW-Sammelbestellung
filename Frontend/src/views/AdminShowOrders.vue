@@ -49,6 +49,22 @@
         </button>
       </div>
     </div>
+
+    <div class="flex justify-start mt-5">
+      <div class="flex flex-row justify-center mt-6 mr-5">
+        <div class="w-96">
+          <p class="font-semibold">Bestellungen ab:</p>
+          <Datepicker v-model="ab"></Datepicker>
+        </div>
+      </div>
+      <div class="flex flex-row justify-center mt-6">
+        <div class="w-96">
+          <p class="font-semibold">Bestellungen bis:</p>
+          <Datepicker v-model="bis"></Datepicker>
+        </div>
+      </div>
+    </div>
+
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -74,10 +90,13 @@
                   E-Mail
                 </th> -->
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Produkt Number
+                  Artikelnummer
                 </th>
-                <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <!-- <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Anzahl
+                </th> -->
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Datum d. Bestellung
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Groesse
@@ -95,7 +114,7 @@
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
               <tr
-                v-for="(order, idx) in orders"
+                v-for="(order, idx) in filteredOrders"
                 :key="idx"
                 :class="[
                   order.o_id % 2 == 0 ? 'bg-gray-100' : 'bg-white',
@@ -112,8 +131,13 @@
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.productnumber }}
                 </td>
-                <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                <!-- <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.anzahl }}
+                </td> -->
+                <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                  {{ new Date(order.zeitpunkt).getDate() }}.{{
+                    new Date(order.zeitpunkt).getMonth() + 1
+                  }}.{{ new Date(order.zeitpunkt).getFullYear() }}
                 </td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                   {{ order.size }}
@@ -156,7 +180,7 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   HomeIcon,
@@ -172,6 +196,9 @@ const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
   { name: 'Bestellungen ansehen', href: '/adminShowOrders', current: true },
 ];
+
+let ab = ref(null);
+let bis = ref(null);
 
 onMounted(async () => {
   try {
@@ -192,7 +219,7 @@ async function getData() {
 }
 
 async function exportOrders() {
-  const { data: csv } = await axios.get('/exportOrders');
+  const { data: csv } = await axios.get(`/exportOrders?von=${ab.value}&bis=${bis.value}`);
 
   downloadCSV(csv, 'orders.csv');
 }
@@ -235,4 +262,26 @@ async function setOffen(order) {
     console.log(error);
   }
 }
+
+let filteredOrders = computed(() => {
+  //Only show orders which lay in between the selected dates
+  if (ab.value && bis.value) {
+    return orders.value.filter((order) => {
+      return (
+        new Date(order.zeitpunkt) >= new Date(ab.value) &&
+        new Date(order.zeitpunkt) <= new Date(bis.value)
+      );
+    });
+  } else if (ab.value && !bis.value) {
+    return orders.value.filter((order) => {
+      return new Date(order.zeitpunkt) >= new Date(ab.value);
+    });
+  } else if (!ab.value && bis.value) {
+    return orders.value.filter((order) => {
+      return new Date(order.zeitpunkt) <= new Date(bis.value);
+    });
+  } else {
+    return orders.value;
+  }
+});
 </script>
