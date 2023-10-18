@@ -62,10 +62,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import ProductWarenkorb from '@/components/ProductWarenkorb.vue';
+import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
+const store = westwien();
 const products = ref([]);
 
 onMounted(() => {
@@ -95,6 +97,8 @@ function removeFromCart(product) {
   products.value.splice(index, 1);
   localStorage.removeItem('cart');
   localStorage.setItem('cart', JSON.stringify(products.value));
+
+  store.deleteProductFromWarenkorb(product);
 }
 
 function changeAnzahl(product) {
@@ -102,5 +106,7 @@ function changeAnzahl(product) {
   products.value[index].anzahl = product.anzahl;
   localStorage.removeItem('cart');
   localStorage.setItem('cart', JSON.stringify(products.value));
+
+  store.changeProductInWarenkorb(product);
 }
 </script>

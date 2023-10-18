@@ -215,6 +215,7 @@ import axios from 'axios';
 import { westwien } from '../Store/westwienStore.js';
 
 const router = useRouter();
+const store = westwien();
 
 let anzahl = ref('1');
 const product = ref({
@@ -275,6 +276,8 @@ function addToCart(product) {
     let basket = JSON.parse(localStorage.getItem('cart'));
     basket.push(product);
     localStorage.setItem('cart', JSON.stringify(basket));
+
+    store.addProductToWarenkorb(product);
 
     show.value = true;
 

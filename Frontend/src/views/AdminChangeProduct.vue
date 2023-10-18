@@ -2,7 +2,7 @@
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div
     aria-live="assertive"
-    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-50"
   >
     <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
       <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
@@ -510,15 +510,20 @@ const categories = [
 
 const sizes = [
   { id: 1, name: '116' },
-  { id: 2, name: '128' },
-  { id: 3, name: '140' },
+  { id: 2, name: '140' },
+  { id: 3, name: '128' },
   { id: 4, name: '152' },
   { id: 5, name: '164' },
   { id: 6, name: 'S' },
   { id: 7, name: 'M' },
   { id: 8, name: 'L' },
   { id: 9, name: 'XL' },
-  { id: 10, name: 'Keine Größe' },
+  { id: 10, name: 'XXL' },
+  { id: 11, name: '31-35' },
+  { id: 12, name: '36-40' },
+  { id: 13, name: '41-45' },
+  { id: 14, name: '46-50' },
+  { id: 15, label: 'Keine Größe' },
 ];
 
 const selectedColor = ref(colors[0]);

@@ -15,6 +15,7 @@ function SaveState(abmelden) {
 export const westwien = defineStore('westwien', {
   state: () => ({
     aktiverUser: null,
+    warenkorb: [],
   }),
   getters: {
     getAktivenUser() {
@@ -30,6 +31,18 @@ export const westwien = defineStore('westwien', {
     deleteAktivenUser() {
       this.aktiverUser = null;
       SaveState(true);
+    },
+    addProductToWarenkorb(product) {
+      this.warenkorb.push(product);
+      SaveState();
+    },
+    deleteProductFromWarenkorb(product) {
+      this.warenkorb.splice(this.warenkorb.indexOf(product), 1);
+      SaveState();
+    },
+    changeProductInWarenkorb(product) {
+      this.warenkorb[this.warenkorb.indexOf(product)] = product;
+      SaveState();
     },
   },
 });

@@ -22,13 +22,28 @@
                 :key="item.name"
                 @click="router.push(item.path)"
                 :class="[
-                  item.current
+                  item.path == getCurrentRoute
                     ? 'bg-wwDarkGreen text-white'
                     : 'text-white hover:bg-wwLightGreen hover:bg-opacity-75',
                   'rounded-md px-3 py-2 text-sm font-medium',
                 ]"
                 :aria-current="item.current ? 'page' : undefined"
                 >{{ item.name }}</a
+              >
+              <a
+                @click="router.push('/warenkorb')"
+                :class="[
+                  '/warenkorb' == getCurrentRoute
+                    ? 'bg-wwDarkGreen text-white'
+                    : 'text-white hover:bg-wwLightGreen hover:bg-opacity-75',
+                  'rounded-md px-3 py-2 text-sm font-medium',
+                ]"
+                >Warenkorb
+                <span
+                  v-if="store.warenkorb.length > 0"
+                  class="inline-flex items-center rounded-md bg-wwGray px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-wwDarkGray"
+                  >{{ getWarenkorbAnzahl }}</span
+                ></a
               >
             </div>
           </div>
@@ -107,7 +122,7 @@
           as="a"
           @click="router.push(item.path)"
           :class="[
-            item.current
+            item.path == getCurrentRoute
               ? 'bg-wwDarkGreen text-white'
               : 'text-white hover:bg-wwLightGreen hover:bg-opacity-75',
             'block rounded-md px-3 py-2 text-base font-medium',
@@ -116,14 +131,14 @@
           >{{ item.name }}</DisclosureButton
         >
       </div>
-      <div class="border-t border-wwDarkGreen pb-3 pt-4" v-if="store.getAktiverUser">
+      <div class="border-t border-wwDarkGreen pb-3 pt-4" v-if="store.getAktivenUser">
         <div class="flex items-center px-5">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" :src="store.getAktiverUser.profilbild_url" alt="" />
+            <img class="h-8 w-8 rounded-full" alt="Profilbild" src="/logo4.png" />
           </div>
           <div class="ml-3">
             <div class="text-base font-medium text-white">
-              {{ store.getAktiverUser.vorname }} {{ store.getAktiverUser.nachname }}
+              {{ store.getAktivenUser.vorname }} {{ store.getAktivenUser.nachname }}
             </div>
           </div>
         </div>
@@ -163,16 +178,30 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import { westwien } from '../Store/westwienStore.js';
+import { ref, computed } from 'vue';
 
 const router = useRouter();
 const store = westwien();
 
 const navigation = [
-  { name: 'Home', path: '/', current: true },
-  { name: 'Produkte', path: '/produkte', current: false },
-  { name: 'Warenkorb', path: '/warenkorb', current: false },
-  { name: 'FAQ', path: '/faq', current: false },
+  { name: 'Home', path: '/' },
+  { name: 'Produkte', path: '/produkte' },
+  { name: 'FAQ', path: '/faq' },
 ];
+let warenkorb = ref([]);
 
 const userNavigation = [{ name: 'Abmelden', href: '/' }];
+
+const getCurrentRoute = computed(() => {
+  return router.currentRoute.value.path;
+});
+
+const getWarenkorbAnzahl = computed(() => {
+  try {
+    return store.warenkorb.length;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+});
 </script>
