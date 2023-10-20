@@ -6,6 +6,15 @@
         <div class="flex lg:hidden">
           <button
             type="button"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 mr-2"
+            @click="router.push('/warenkorb')"
+          >
+            <span class="sr-only">Open main menu</span>
+            <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+          </button>
+
+          <button
+            type="button"
             class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             @click="mobileMenuOpen = true"
           >
@@ -23,7 +32,7 @@
           >
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+          <a @click="router.push('/admin')" class="text-sm font-semibold leading-6 text-gray-900"
             >Log in <span aria-hidden="true">&rarr;</span></a
           >
         </div>
@@ -56,7 +65,7 @@
               </div>
               <div class="py-6">
                 <a
-                  href="#"
+                  @click="router.push('/admin')"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Log in</a
                 >
@@ -156,7 +165,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Dialog, DialogPanel } from '@headlessui/vue';
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { Bars3Icon, XMarkIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

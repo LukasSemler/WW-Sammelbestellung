@@ -100,6 +100,13 @@
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
+          
+
+          <div @click="router.push('/warenkorb')" class="relative inline-flex items-center justify-center rounded-md bg-wwGreen p-2 text-wwGray hover:bg-wwLightGreen hover:bg-opacity-75 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-wwDarkGreen">
+            <ShoppingCartIcon class="block h-6 w-6 text-wwGray" aria-hidden="true" />
+          </div>
+
+
           <!-- Mobile menu button -->
           <DisclosureButton
             class="relative inline-flex items-center justify-center rounded-md bg-wwGreen p-2 text-indigo-200 hover:bg-wwLightGreen hover:bg-opacity-75 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-wwDarkGreen"
