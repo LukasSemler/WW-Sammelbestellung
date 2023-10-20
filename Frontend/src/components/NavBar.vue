@@ -106,9 +106,10 @@
           >
             <span class="absolute -inset-0.5" />
             <span class="sr-only">Open main menu</span>
+           
             <Bars3Icon v-if="!open" class="block h-6 w-6 text-wwGray" aria-hidden="true" />
             <XMarkIcon v-else class="block h-6 w-6 text-wwGray" aria-hidden="true" />
-          </DisclosureButton>
+          </DisclosureButton>       
         </div>
       </div>
     </div>
@@ -175,7 +176,7 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue';
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { Bars3Icon, XMarkIcon, ShoppingCartIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import { westwien } from '../Store/westwienStore.js';
 import { ref, computed } from 'vue';
@@ -197,6 +198,7 @@ const getCurrentRoute = computed(() => {
 });
 
 const getWarenkorbAnzahl = computed(() => {
+  console.log('WARENKORB: ', store.warenkorb);
   try {
     return store.warenkorb.length;
   } catch (error) {

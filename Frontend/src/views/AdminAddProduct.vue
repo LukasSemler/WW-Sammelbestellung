@@ -115,7 +115,7 @@
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5">
                 <p class="text-sm font-medium text-gray-900">Fehler!</p>
-                <p class="mt-1 text-sm text-gray-500">Bitte fuelle alle Felder aus!</p>
+                <p class="mt-1 text-sm text-gray-500">Bitte fülle alle Felder aus!</p>
               </div>
               <div class="ml-4 flex flex-shrink-0">
                 <button
@@ -204,7 +204,7 @@
                     for="thumbnail"
                     class="relative cursor-pointer bg-white rounded-md font-medium text-wwGreen hover:text-wwDarkGreen focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-wwGreen"
                   >
-                    <span class="text-center text-wwGreen">Upload a file</span>
+                    <span class="text-center text-wwGreen">Lade ein Bild hoch</span>
                     <input
                       id="thumbnail"
                       name="thumbnail"
@@ -462,7 +462,7 @@
 
           <div class="sm:col-span-4">
             <fieldset>
-              <legend class="text-base font-semibold leading-6 text-gray-900">Groessen</legend>
+              <legend class="text-base font-semibold leading-6 text-gray-900">Größen:</legend>
               <p v-if="v$.groessen.$invalid" class="mt-2 text-sm text-red-600" id="email-error">
                 {{ v$.groessen.$silentErrors[0].$message }}
               </p>

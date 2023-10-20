@@ -404,7 +404,7 @@
 
           <div class="sm:col-span-4">
             <fieldset>
-              <legend class="text-base font-semibold leading-6 text-gray-900">Groessen</legend>
+              <legend class="text-base font-semibold leading-6 text-gray-900">Größen</legend>
               <div class="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
                 <div
                   v-for="(size, sizeIdx) in sizes"
@@ -498,7 +498,7 @@ const colors = [
   { id: 1, name: 'Schwarz', color: 'bg-black' },
   { id: 2, name: 'Grün', color: 'bg-wwGreen' },
   { id: 3, name: 'Grau', color: 'bg-wwLightGray' },
-  { id: 4, name: 'Weiss', color: 'bg-white' },
+  { id: 4, name: 'Weiß', color: 'bg-white' },
   { id: 5, name: 'Keine Farbe', color: 'none' },
 ];
 

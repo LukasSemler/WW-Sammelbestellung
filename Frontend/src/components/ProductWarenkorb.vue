@@ -23,7 +23,7 @@
             v-if="props.product.actualSize"
             class="ml-4 border-l border-gray-200 pl-4 text-gray-500"
           >
-            Groesse: {{ props.product.actualSize }}
+            Größe: {{ props.product.actualSize }}
           </p>
         </div>
         <p class="mt-1 text-sm font-medium text-gray-900">{{ props.product.price }}€</p>
@@ -31,7 +31,7 @@
 
       <div class="mt-4 sm:mt-0 sm:pr-9">
         <label :for="`quantity-${productIdx}`" class="sr-only"
-          >Quantity, {{ props.product.name }}</label
+          >Anzahl, {{ props.product.name }}</label
         >
         <select
           :id="`quantity-${props.productIdx}`"

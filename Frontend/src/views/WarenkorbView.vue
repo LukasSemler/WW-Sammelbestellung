@@ -7,7 +7,7 @@
         v-if="products.length > 0"
       >
         <section aria-labelledby="cart-heading" class="lg:col-span-7">
-          <h2 id="cart-heading" class="sr-only">Ihre Artikel in Ihrem Warenkorb</h2>
+          <h2 id="cart-heading" class="sr-only">Deine Artikel im Warenkorb</h2>
 
           <ul role="list" class="divide-y divide-gray-200 border-b border-t border-gray-200">
             <li
@@ -48,13 +48,13 @@
               @click="router.push('/checkout')"
               class="w-full rounded-md border border-transparent bg-wwGreen px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-              Zum Checkout
+              Bezahlen
             </button>
           </div>
         </section>
       </form>
       <h1 class="text-center text-gray-900 text-2xl font-medium mt-12" v-else>
-        Ihr Warenkorb ist leider leer :(
+        Dein Warenkorb ist leider leer :(
       </h1>
     </div>
   </div>

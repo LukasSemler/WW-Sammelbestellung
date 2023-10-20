@@ -55,11 +55,11 @@
                 <CheckCircleIcon class="h-6 w-6 text-green-400" aria-hidden="true" />
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5">
-                <p class="text-sm font-medium text-gray-900">Erfolgreich hinzugefuegt</p>
+                <p class="text-sm font-medium text-gray-900">Erfolgreich hinzugefügt</p>
                 <p class="mt-1 text-sm text-gray-500">
                   Sie haben das Product
                   <span class="font-bold">{{ product.name }} </span> erfolgreich zu Ihrem
-                  Einkaufswagen hinzugefuegt
+                  Einkaufswagen hinzugefügt.
                 </p>
               </div>
               <div class="ml-4 flex flex-shrink-0">
@@ -92,7 +92,7 @@
           </div>
 
           <div class="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-            <h2 class="sr-only">Images</h2>
+            <h2 class="sr-only">Bilder</h2>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
               <img :src="product.image" :alt="product.name" class="lg:col-span-2 lg:row-span-2" />
@@ -158,7 +158,7 @@
             <!-- Size picker -->
             <div class="mt-8" v-if="!product.sizes.includes('Keine Größe')">
               <RadioGroup v-model="selectedSize" class="mt-2">
-                <RadioGroupLabel class="text-gray-900">Groessen:</RadioGroupLabel>
+                <RadioGroupLabel class="text-gray-900">Größen:</RadioGroupLabel>
                 <div class="grid grid-cols-3 gap-3 sm:grid-cols-6 mt-3">
                   <RadioGroupOption
                     as="template"
@@ -189,12 +189,12 @@
               @click="addToCart(product)"
               class="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-wwGreen px-8 py-3 text-base font-medium text-white hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2"
             >
-              Add to cart
+              Zum Warenkorb hinzufügen
             </button>
 
             <!-- Product details -->
             <div class="mt-10">
-              <h2 class="text-sm font-medium text-gray-900">Description</h2>
+              <h2 class="text-sm font-medium text-gray-900">Beschreibung</h2>
 
               <div class="prose prose-sm mt-4 text-gray-500" v-html="product.explaination" />
             </div>

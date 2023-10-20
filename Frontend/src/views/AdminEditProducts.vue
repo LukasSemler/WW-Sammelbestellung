@@ -291,10 +291,10 @@
                   Kategorie
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Grössen
+                  Größen
                 </th>
                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                  <span class="sr-only">Edit</span>
+                  <span class="sr-only">Bearbeiten</span>
                 </th>
               </tr>
             </thead>
@@ -379,7 +379,7 @@ const filters = [
     id: 'Farbe',
     name: 'Farbe',
     options: [
-      { value: 'Weiss', label: 'Weiß' },
+      { value: 'Weiß', label: 'Weiß' },
       { value: 'Schwarz', label: 'Schwarz' },
       { value: 'Grün', label: 'Grün' },
       { value: 'Grau', label: 'Grau' },

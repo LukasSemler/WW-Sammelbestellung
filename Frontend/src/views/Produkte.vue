@@ -196,10 +196,9 @@
         <div class="border-b border-gray-200 pb-10">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900">Alle Produkte</h1>
           <p class="mt-4 text-base text-gray-500">
-            Hier koennt ihr alle unsere Produkte sehen. Egal ob Casual oder Player, hier findet ihr
-            alles. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit tempora ullam,
-            labore iste fugit obcaecati dolores. At repellat accusamus modi, quae ab similique
-            quidem cumque mollitia, libero voluptatum, sunt explicabo!
+            Hier kannst du alle Produkte welche bei der Sammelbestellung bestellt werden können,
+            sehen. Wenn du nach einem Spezifischen Produkt suchen willst, nutze ganz einfach den
+            Filter auf der linke Seite.
           </p>
 
           <div class="mt-8" v-if="fristToOrder">
@@ -424,7 +423,7 @@ function formateDate(date) {
 const filtersColor = ref([
   {
     id: 'color',
-    name: 'Color',
+    name: 'Farben',
     options: [
       { value: 'Weiß', label: 'Weiß' },
       { value: 'Schwarz', label: 'Schwarz' },
@@ -437,7 +436,7 @@ const filtersColor = ref([
 const filtersCategory = ref([
   {
     id: 'category',
-    name: 'Category',
+    name: 'Kategorie',
     options: [
       { value: 'Casual', label: 'Casual' },
       { value: 'Player', label: 'Player' },
@@ -449,7 +448,7 @@ const filtersCategory = ref([
 const filtersSize = ref([
   {
     id: 'sizes',
-    name: 'Sizes',
+    name: 'Größen',
     options: [
       { value: '116', label: '116' },
       { value: '128', label: '128' },

@@ -71,7 +71,7 @@ const actions = [
     path: '/adminShowOrders',
   },
   {
-    name: 'Bestellfrist aendern',
+    name: 'Bestellfrist ändern',
     icon: WrenchIcon,
     bgColor: 'bg-wwGray',
     path: '/adminSetFrist',
