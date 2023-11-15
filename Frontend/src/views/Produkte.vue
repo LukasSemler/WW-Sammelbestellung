@@ -196,9 +196,14 @@
         <div class="border-b border-gray-200 pb-10">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900">Alle Produkte</h1>
           <p class="mt-4 text-base text-gray-500">
-            Hier kannst du alle Produkte welche bei der Sammelbestellung bestellt werden können,
-            sehen. Wenn du nach einem Spezifischen Produkt suchen willst, nutze ganz einfach den
-            Filter auf der linke Seite.
+            Hier findest du alle Produkte, welche bei 11Teamsports bestellt werden können. Wenn du
+            nach bestimmten Produkten filtern möchtest, kannst du den Filter auf der linken Seite
+            verwenden. Wenn du Fragen zu einem Produkt hast, kannst du uns jederzeit gerne per Email
+            erreichen.
+            <br />
+            <br>
+            Bitte beachte, dass wir nur Bestellungen berücksichtigen können, welche bis zum Ende der
+            Bestellfrist (sichtbar auf der Produkt-Seite) eingegangen sind.
           </p>
 
           <div class="mt-8" v-if="fristToOrder">

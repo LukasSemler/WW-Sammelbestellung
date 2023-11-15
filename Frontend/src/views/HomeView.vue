@@ -115,8 +115,8 @@
               West-Wien Bestellplattform
             </h1>
             <p class="mt-6 text-lg leading-8 text-gray-600">
-              Diese Webseite ist für Vereinsmitglieder des Handballvereins West-Wien. Über diese
-              Plattform werden ab nun die Sammelbestellungen bei 11Teamsports abgewickelt.
+              Auf dieser Webseite kannst du die Produkte sehen, welche bei der Sammelbestellung
+              verfügbar sind. Außerdem kannst du hier deine Bestellungen aufgeben.
             </p>
             <div class="mt-10 flex items-center justify-center gap-x-6">
               <a

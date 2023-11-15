@@ -523,7 +523,7 @@ const sizes = [
   { id: 12, name: '36-40' },
   { id: 13, name: '41-45' },
   { id: 14, name: '46-50' },
-  { id: 15, label: 'Keine Größe' },
+  { id: 15, name: 'Keine Größe' },
 ];
 
 const selectedColor = ref(colors[0]);
