@@ -65,6 +65,20 @@
       </div>
     </div>
 
+    <div class="w-56 mt-5">
+      <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+      <div class="mt-2">
+        <input
+          v-model="nameFilter"
+          type="text"
+          name="name"
+          id="name"
+          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
+          placeholder="Max Mustermann"
+        />
+      </div>
+    </div>
+
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -75,7 +89,23 @@
                   scope="col"
                   class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                 >
-                  OrderNr.
+                  <a class="group inline-flex">
+                    Name
+                    <span
+                      class="ml-2 flex-none rounded text-wwDarkGray bg-gray-200"
+                      v-if="sort == 'ASC'"
+                      @click="sort = 'DESC'"
+                    >
+                      <ChevronUpIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span
+                      class="ml-2 flex-none rounded text-wwDarkGray bg-gray-200"
+                      @click="sort = 'ASC'"
+                      v-else
+                    >
+                      <ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </a>
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Summe
@@ -99,7 +129,7 @@
                   Datum d. Bestellung
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Groesse
+                  Größe
                 </th>
                 <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Product Name
@@ -187,10 +217,14 @@ import {
   ArrowUpOnSquareIcon,
   CheckCircleIcon,
   XCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from '@heroicons/vue/24/outline';
 
 const orders = ref([]);
 const router = useRouter();
+let sort = ref('ASC');
+let nameFilter = ref('');
 
 const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
@@ -265,23 +299,37 @@ async function setOffen(order) {
 
 let filteredOrders = computed(() => {
   //Only show orders which lay in between the selected dates
+  let result = orders.value;
+
   if (ab.value && bis.value) {
-    return orders.value.filter((order) => {
+    result = orders.value.filter((order) => {
       return (
         new Date(order.zeitpunkt) >= new Date(ab.value) &&
         new Date(order.zeitpunkt) <= new Date(bis.value)
       );
     });
   } else if (ab.value && !bis.value) {
-    return orders.value.filter((order) => {
+    result = orders.value.filter((order) => {
       return new Date(order.zeitpunkt) >= new Date(ab.value);
     });
   } else if (!ab.value && bis.value) {
-    return orders.value.filter((order) => {
+    result = orders.value.filter((order) => {
       return new Date(order.zeitpunkt) <= new Date(bis.value);
     });
-  } else {
-    return orders.value;
   }
+
+  if (sort.value === 'ASC') {
+    result = result.sort((a, b) => a.o_id - b.o_id);
+  } else {
+    result = result.sort((a, b) => b.o_id - a.o_id);
+  }
+  console.log(result);
+
+  //Filter by name
+  result = result.filter((order) => {
+    return !nameFilter.value || order.eltern.toLowerCase().includes(nameFilter.value.toLowerCase());
+  });
+
+  return result;
 });
 </script>

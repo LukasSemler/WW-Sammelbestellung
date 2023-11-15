@@ -82,7 +82,7 @@ async function signin(e) {
     state.password.length > 0
   ) {
     const { data } = await axios.post('/login', {
-      email: state.email.toLocaleLowerCase(),
+      email: state.email.toLowerCase(),
       password: state.password,
     });
 
