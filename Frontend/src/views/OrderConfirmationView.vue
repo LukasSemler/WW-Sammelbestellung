@@ -9,14 +9,14 @@
     <div class="mx-auto max-w-2xl lg:max-w-4xl">
       <img class="mx-auto h-52 mb-12" src="/logo3.png" alt="" />
       <h1 class="text-3xl font-bold tracking-tight text-wwGreen sm:text-4xl text-center">
-        Vielen Danke fuer deine Bestellung!
+        Vielen Danke für deine Bestellung!
       </h1>
       <figure class="mt-10">
         <blockquote
           class="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9"
         >
           <p>
-            Du solltest in kurze eine E-Mail an deine angegebene E-Mail-Adresse erhalten. Dort
+            Du solltest in kürze eine E-Mail an deine angegebene E-Mail-Adresse erhalten. Dort
             siehst du nochmal eine Zusammenfassung deiner Bestellung. In dieser E-Mail erfährst du
             auch alle Informationen bezüglich der Bezahlung. Wenn ein Fehler aufgetreten ist, melde
             dich bitte bei uns.

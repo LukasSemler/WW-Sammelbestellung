@@ -286,6 +286,28 @@
             </div>
           </div>
 
+          <div class="col-span-full">
+            <label for="nummer" class="block text-sm font-medium leading-6 text-gray-900"
+              >Artikelnummer Kempa</label
+            >
+            <div class="mt-2">
+              <input
+                v-model="state.artikelNummerKempa"
+                type="text"
+                name="nummer"
+                id="nummer"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-wwGreen sm:text-sm sm:leading-6"
+              />
+              <p
+                v-if="v$.artikelNummerKempa.$invalid"
+                class="mt-2 text-sm text-red-600"
+                id="email-error"
+              >
+                {{ v$.artikelNummerKempa.$silentErrors[0].$message }}
+              </p>
+            </div>
+          </div>
+
           <div class="sm:col-span-2">
             <Listbox as="div" v-model="selectedColor">
               <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900"
@@ -524,7 +546,7 @@ const colors = [
   { id: 1, name: 'Schwarz', color: 'bg-black' },
   { id: 2, name: 'Grün', color: 'bg-wwGreen' },
   { id: 3, name: 'Grau', color: 'bg-wwLightGray' },
-  { id: 4, name: 'Weiss', color: 'bg-white' },
+  { id: 4, name: 'Weiß', color: 'bg-white' },
   { id: 5, name: 'Keine Farbe', color: 'none' },
 ];
 const categories = [
@@ -563,6 +585,7 @@ let image = ref(null);
 const state = reactive({
   name: '',
   artikelNummer: '',
+  artikelNummerKempa: '',
   farbe: '',
   preis: null,
   groessen: [],
@@ -574,6 +597,7 @@ const rules = computed(() => {
   return {
     name: { required },
     artikelNummer: { required },
+    artikelNummerKempa: { required },
     preis: { required, numeric },
     groessen: { required },
     imageSchicken: { required },

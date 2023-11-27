@@ -365,7 +365,13 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { HomeIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/outline';
+import {
+  HomeIcon,
+  TrashIcon,
+  PencilIcon,
+  XMarkIcon,
+  CheckCircleIcon,
+} from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue';
@@ -391,7 +397,7 @@ const filters = [
     options: [
       { value: 'Casual', label: 'Casual' },
       { value: 'Player', label: 'Player' },
-      { value: 'Fans', label: 'Fans' },
+      { value: 'Fan', label: 'Fan' },
     ],
   },
   {

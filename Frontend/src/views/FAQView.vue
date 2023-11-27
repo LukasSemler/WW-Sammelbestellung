@@ -42,12 +42,6 @@ const faqs = [
     answer: 'Nein, leider ist das nicht Möglich.',
   },
   {
-    id: 3,
-    question: "What's the best thing about Switzerland?",
-    answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
-  },
-  {
     id: 4,
     question: 'Was mache ich, wenn ein Artikel nicht lieferbar ist?',
     answer:
@@ -62,7 +56,8 @@ const faqs = [
   {
     id: 6,
     question: 'Wann wird die nächste Bestellmöglichkeit sein?',
-    answer: '????',
+    answer:
+      'Kurz vor Beginn der nächsten Sammelbestellung schicken wir eine E-Mail mit allen Infos.',
   },
   {
     id: 7,

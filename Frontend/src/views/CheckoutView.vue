@@ -354,10 +354,12 @@ import { useRouter } from 'vue-router';
 import useValidate from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import { ArrowLeftIcon } from '@heroicons/vue/24/outline';
+import { westwien } from '../Store/westwienStore';
 
 const router = useRouter();
 const products = ref([]);
 let showError = ref(false);
+const store = westwien();
 
 const jahrgang = [
   { id: 1, name: 'Wild minis' },
@@ -437,6 +439,7 @@ async function order(e) {
       await axios.post('/orders', state);
 
       localStorage.removeItem('cart');
+      store.warenkorb = [];
 
       router.push('/orderconfirmation');
     } catch (error) {
