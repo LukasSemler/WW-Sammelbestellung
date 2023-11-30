@@ -201,7 +201,7 @@
             verwenden. Wenn du Fragen zu einem Produkt hast, kannst du uns jederzeit gerne per Email
             erreichen.
             <br />
-            <br>
+            <br />
             Bitte beachte, dass wir nur Bestellungen berücksichtigen können, welche bis zum Ende der
             Bestellfrist (sichtbar auf der Produkt-Seite) eingegangen sind.
           </p>
@@ -215,7 +215,14 @@
               :deadline="fristToOrder"
             ></vue3-flip-countdown>
           </div>
-          <div v-else></div>
+          <div v-else>
+            <hr class="mt-5" />
+            <h1 class="text-center text-xl mt-12 text-gray-900">
+              Leider ist keine Sammelbestellung Aktiv, bitte warte bis eine neue Aktive
+              Sammelbestellung vorhanden ist. Wir werden dich per Email Informieren, wenn das der
+              Fall ist.
+            </h1>
+          </div>
         </div>
 
         <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
@@ -404,11 +411,15 @@ let fristToOrder = ref(null);
 onMounted(async () => {
   const { data } = await axios.get('/products');
   const { data: data2 } = await axios.get('/frist');
-  console.log(data2[0].zeitpunkt);
+  if (data2.length > 0 || data2.status === 'active') {
+    fristToOrder.value = new Date();
+    const res = formateDate(data2.bis);
+    console.log(res);
+    fristToOrder.value = res;
+  } else {
+    fristToOrder.value = null;
+  }
   products.value = data;
-  const res = formateDate(data2[0].zeitpunkt);
-  console.log(res);
-  fristToOrder.value = res;
 });
 
 function formateDate(date) {

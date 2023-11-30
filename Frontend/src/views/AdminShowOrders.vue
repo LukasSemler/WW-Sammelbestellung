@@ -50,6 +50,35 @@
       </div>
     </div>
 
+    <div class="w-1/3 mt-12">
+      <SwitchGroup as="div" class="flex items-center justify-between">
+        <span class="flex flex-grow flex-col">
+          <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive
+            >Alle Bestellungen anzeigen</SwitchLabel
+          >
+          <SwitchDescription as="span" class="text-sm text-gray-500"
+            >Wenn dies Aktiviert ist, siehst du alle Bestellungen. Sonst siehst du nur die
+            Bestellungen von der letzten Sammelbestellung</SwitchDescription
+          >
+        </span>
+        <Switch
+          v-model="enabled"
+          :class="[
+            enabled ? 'bg-wwGreen' : 'bg-gray-200',
+            'ml-12 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2',
+          ]"
+        >
+          <span
+            aria-hidden="true"
+            :class="[
+              enabled ? 'translate-x-5' : 'translate-x-0',
+              'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+            ]"
+          />
+        </Switch>
+      </SwitchGroup>
+    </div>
+
     <div class="flex justify-start mt-5">
       <div class="flex flex-row justify-center mt-6 mr-5">
         <div class="w-96">
@@ -154,7 +183,7 @@
                 <td class="whitespace-nowrap p-4 text-sm font-bold text-gray-900">
                   {{ order.o_id }}
                 </td>
-                <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.sum }}</td>
+                <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.sum }}€</td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.eltern }}</td>
                 <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.spieler }}</td>
                 <!-- <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{ order.email }}</td> -->
@@ -220,11 +249,14 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from '@heroicons/vue/24/outline';
+import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 
 const orders = ref([]);
 const router = useRouter();
 let sort = ref('ASC');
 let nameFilter = ref('');
+let aktiveSammelbestellung = ref(null);
+let enabled = ref(false);
 
 const pages = [
   { name: 'Admin-Panel', href: '/admin', current: false },
@@ -245,6 +277,17 @@ onMounted(async () => {
 async function getData() {
   try {
     const { data } = await axios.get('/orders');
+    const { data: sammelbestellung } = await axios.get('/getSammelbestellungen');
+
+    console.log(sammelbestellung);
+
+    //Find the latest Sammelbestellung
+    for (const s of sammelbestellung) {
+      //Find the highest id
+      if (!aktiveSammelbestellung.value || s.s_id > aktiveSammelbestellung.value) {
+        aktiveSammelbestellung.value = s.s_id;
+      }
+    }
 
     orders.value = data;
   } catch (error) {
@@ -318,12 +361,18 @@ let filteredOrders = computed(() => {
     });
   }
 
+  //Find only orders from the latest Sammelbestellung
+  if (!enabled.value) {
+    result = result.filter((order) => {
+      return order.fk_s_id === aktiveSammelbestellung.value;
+    });
+  }
+
   if (sort.value === 'ASC') {
     result = result.sort((a, b) => a.o_id - b.o_id);
   } else {
     result = result.sort((a, b) => b.o_id - a.o_id);
   }
-  console.log(result);
 
   //Filter by name
   result = result.filter((order) => {

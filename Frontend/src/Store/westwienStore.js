@@ -16,6 +16,7 @@ export const westwien = defineStore('westwien', {
   state: () => ({
     aktiverUser: null,
     warenkorb: [],
+    aktiveSammelbestellung: false,
   }),
   getters: {
     getAktivenUser() {
@@ -42,6 +43,10 @@ export const westwien = defineStore('westwien', {
     },
     changeProductInWarenkorb(product) {
       this.warenkorb[this.warenkorb.indexOf(product)] = product;
+      SaveState();
+    },
+    setSammelbestellung(status) {
+      this.aktiveSammelbestellung = status;
       SaveState();
     },
   },

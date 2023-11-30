@@ -47,6 +47,7 @@ import {
   WrenchIcon,
   EyeIcon,
 } from '@heroicons/vue/20/solid';
+import { CalendarIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -71,8 +72,8 @@ const actions = [
     path: '/adminShowOrders',
   },
   {
-    name: 'Bestellfrist ändern',
-    icon: WrenchIcon,
+    name: 'Sammelbestellung erstellen',
+    icon: CalendarIcon,
     bgColor: 'bg-wwGray',
     path: '/adminSetFrist',
   },

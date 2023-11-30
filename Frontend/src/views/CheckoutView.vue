@@ -25,7 +25,7 @@
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5">
                 <p class="text-sm font-medium text-gray-900">Fehler!</p>
-                <p class="mt-1 text-sm text-gray-500">Bitte fuelle alle Felder aus!</p>
+                <p class="mt-1 text-sm text-gray-500">Bitte fülle alle Felder aus!</p>
               </div>
               <div class="ml-4 flex flex-shrink-0">
                 <button
@@ -324,8 +324,9 @@
                 Abbrechen
               </button>
               <button
+                :disabled="ordered"
                 @click="order"
-                class="rounded-md border border-transparent bg-wwGreen px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
+                class="disabled:bg-wwLightGray disabled:text-wwDarkGray rounded-md border border-transparent bg-wwGreen px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Zahlungspflichtig bestellen
               </button>
@@ -360,6 +361,7 @@ const router = useRouter();
 const products = ref([]);
 let showError = ref(false);
 const store = westwien();
+let ordered = ref(false);
 
 const jahrgang = [
   { id: 1, name: 'Wild minis' },
@@ -435,6 +437,8 @@ async function order(e) {
       state.summe = getTotalSum.value;
       state.prods = products.value;
       state.jahrgang = selected.value.name;
+
+      ordered.value = true;
 
       await axios.post('/orders', state);
 

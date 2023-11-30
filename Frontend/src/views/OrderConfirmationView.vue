@@ -26,7 +26,7 @@
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <a
               @click="router.push('/')"
-              class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-gray-100 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="rounded-md bg-wwGreen px-3.5 py-2.5 text-sm font-semibold text-gray-100 shadow-sm hover:bg-wwDarkGreen"
               >Zu Home</a
             >
           </div>

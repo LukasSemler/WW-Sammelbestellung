@@ -192,11 +192,17 @@
             </div>
 
             <button
+              v-if="store.aktiveSammelbestellung"
               @click="addToCart(product)"
               class="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-wwGreen px-8 py-3 text-base font-medium text-white hover:bg-wwDarkGreen focus:outline-none focus:ring-2 focus:ring-wwGreen focus:ring-offset-2"
             >
               Zum Warenkorb hinzufügen
             </button>
+            <div class="flex flex-row" v-else>
+              <h1 class="text-center text-md mt-12">
+                Du kannst momentan nicht bestellen, da keine Sammelbestellung aktiv ist.
+              </h1>
+            </div>
 
             <!-- Product details -->
             <div class="mt-10" v-if="product.explaination">
