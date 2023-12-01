@@ -443,7 +443,7 @@ async function order(e) {
       await axios.post('/orders', state);
 
       localStorage.removeItem('cart');
-      store.warenkorb = [];
+      store.clearBasket();
 
       router.push('/orderconfirmation');
     } catch (error) {

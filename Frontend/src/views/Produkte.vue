@@ -201,9 +201,6 @@
             verwenden. Wenn du Fragen zu einem Produkt hast, kannst du uns jederzeit gerne per Email
             erreichen.
             <br />
-            <br />
-            Bitte beachte, dass wir nur Bestellungen berücksichtigen können, welche bis zum Ende der
-            Bestellfrist (sichtbar auf der Produkt-Seite) eingegangen sind.
           </p>
 
           <div class="mt-8" v-if="fristToOrder">
@@ -218,9 +215,8 @@
           <div v-else>
             <hr class="mt-5" />
             <h1 class="text-center text-xl mt-12 text-gray-900">
-              Leider ist keine Sammelbestellung Aktiv, bitte warte bis eine neue Aktive
-              Sammelbestellung vorhanden ist. Wir werden dich per Email Informieren, wenn das der
-              Fall ist.
+              Leider ist momentan keine Sammelbestellung aktiv. Wir informieren dich per E-Mail wenn
+              eine neue Sammelbestellung gestartet wurde.
             </h1>
           </div>
         </div>
@@ -377,7 +373,10 @@
                   </a>
                 </div>
                 <h1 v-else class="text-center text-2xl font-medium text-gray-900">
-                  Leider wurden keine Produkte gefunden :(
+                  Produkte werden geladen...
+                  <p class="text-center text-gray-500 text-sm">
+                    Dies kann kurz dauern. Bei Problemen kontaktiere uns bitte per E-Mail
+                  </p>
                 </h1>
               </div>
             </div>

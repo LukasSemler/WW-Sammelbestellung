@@ -270,7 +270,6 @@ const show = ref(false);
 
 onMounted(async () => {
   const { data } = await axios.get(`/products/${router.currentRoute.value.params.id}`);
-  console.log(data);
   product.value = data;
   selectedSize.value = product.value.sizes[0];
 
@@ -302,6 +301,8 @@ function addToCart(product) {
 
     basket.push(product);
     localStorage.setItem('cart', JSON.stringify(basket));
+
+    store.addProductToWarenkorb(product);
 
     show.value = true;
 

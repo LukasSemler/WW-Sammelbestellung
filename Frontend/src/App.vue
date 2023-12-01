@@ -21,6 +21,8 @@ onMounted(async () => {
     store.$state = JSON.parse(localStorage.getItem(store.$id));
   }
 
+  //store.clearBasket();
+
   //Check if there is an active Sammelbestellung and if the time is over
   const { data } = await axios.get('/getSammelbestellungen');
 
@@ -47,6 +49,8 @@ onMounted(async () => {
       console.log('Sammelbestellung ist aktiv');
       await axios.patch('/frist', { status: 'active', oldStatus: 'pending' });
     }
+  } else {
+    store.setSammelbestellung(false);
   }
 });
 </script>

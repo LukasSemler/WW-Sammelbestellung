@@ -15,7 +15,7 @@
             <img class="block h-16 w-auto lg:hidden" src="/logo3.png" alt="Westwien Logo" />
             <img class="hidden h-16 w-auto lg:block" src="/logo3.png" alt="Westwien Logo" />
           </div>
-          <div class="hidden md:block">
+          <div class="hidden md:block hover:cursor-pointer">
             <div class="ml-10 flex items-baseline space-x-4">
               <a
                 v-for="item in navigation"

@@ -22,7 +22,7 @@
             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div class="hidden lg:flex lg:gap-x-12">
+        <div class="hidden lg:flex lg:gap-x-12 hover:cursor-pointer">
           <a
             v-for="item in navigation"
             :key="item.name"

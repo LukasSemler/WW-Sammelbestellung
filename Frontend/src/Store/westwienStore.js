@@ -49,5 +49,9 @@ export const westwien = defineStore('westwien', {
       this.aktiveSammelbestellung = status;
       SaveState();
     },
+    clearBasket() {
+      this.warenkorb = [];
+      SaveState();
+    },
   },
 });
